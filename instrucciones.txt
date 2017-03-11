@@ -1,0 +1,4 @@
+Para generar el ejecutable se compila setup.py de la siguiente forma desde consola
+- python setup.py py2exe
+
+esto genera una carpeta build q ya tiene el programa ejecutable 

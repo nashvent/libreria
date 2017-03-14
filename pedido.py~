@@ -1,0 +1,37 @@
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
+from PyQt5 import uic
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSlot
+
+
+class Lista(QDialog): 
+    def __init__(self):
+        QDialog.__init__(self)
+        uic.loadUi("ui/lista_productos.ui", self)
+        self.initUI()
+
+    def initUI(self):
+        self.tableWidget.doubleClicked.connect(self.on_click)
+    @pyqtSlot()
+    def on_click(self):
+        print("\n")
+        for currentQTableWidgetItem in self.tableWidget.selectedItems():
+            print(currentQTableWidgetItem.row(), currentQTableWidgetItem.column(), currentQTableWidgetItem.text())
+
+        
+class Pedido(QMainWindow):
+    def __init__(self,lista):
+        self.lista=lista
+        QMainWindow.__init__(self)
+        uic.loadUi("ui/pedido.ui", self)
+        self.botonLista.clicked.connect(self.mostrarLista)
+    def mostrarLista(self):
+        self.lista.show()
+  
+app = QApplication(sys.argv)
+lista=Lista()
+pedido = Pedido(lista)
+pedido.show()
+app.exec_()
+

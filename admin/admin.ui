@@ -25,7 +25,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -136,7 +136,7 @@
           </layout>
          </widget>
         </item>
-        <item>
+        <item alignment="Qt::AlignHCenter">
          <widget class="QPushButton" name="btn_agregar">
           <property name="font">
            <font>
@@ -162,6 +162,21 @@
         <string>Editar o Eliminar </string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="0">
+         <widget class="QPushButton" name="btn_eliminar">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Eliminar</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
@@ -277,6 +292,13 @@
             </layout>
            </item>
            <item>
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>Seleccione el producto para eliminar o editar:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QTableWidget" name="lista_productos">
              <property name="sortingEnabled">
               <bool>false</bool>
@@ -319,21 +341,6 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="btn_eliminar">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>Eliminar</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="btn_editar">
           <property name="font">
@@ -345,7 +352,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="text">
-           <string>Editar</string>
+           <string>Guardar</string>
           </property>
          </widget>
         </item>
@@ -374,7 +381,7 @@
     <item alignment="Qt::AlignRight">
      <widget class="QLabel" name="label_14">
       <property name="text">
-       <string>Derechos Reservados a Multiviral</string>
+       <string>Derechos Reservados a Multiviral     </string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>

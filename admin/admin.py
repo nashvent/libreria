@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow,QMessageBox
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
+from PyQt5 import QtGui, QtCore
 
 class Interfaz(object):
     def closeEvent(self, event):

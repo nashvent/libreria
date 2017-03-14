@@ -69,6 +69,10 @@ class Administrador(QMainWindow,Interfaz):
         e_descripcion=(self.e_descripcion.text())
         print (e_codigo,e_nombre,e_stock,e_precio_compra,e_precio_venta,e_descripcion)
         
+    def tabla_productos(self)
+        for r in productos
+          
+
 #Instancia para iniciar una aplicación
 app = QApplication(sys.argv)
 _ventana = Administrador()

@@ -1,0 +1,6 @@
+codigo,nombre,stock,precio_compra,precio_venta,descripcion
+20,lapicero,38,"9,00","10,00",pilot
+21,cartuchera,15,"15,00","20,00",alpha
+22,papel,12,"4,00","7,00",negro
+23,folder,23,"5,00","8,00",a4
+24,cinta,10,"3,00","6,00",blanca

@@ -15,12 +15,6 @@ class Interfaz(object):
         if resultado == QMessageBox.Yes: event.accept()
         else: event.ignore()
 
-productos=[]
-with open('../productos/productos.csv') as csvarchivo:
-    entrada = csv.DictReader(csvarchivo)
-    for reg in entrada:
-        productos.append(reg)
-
 class Administrador(QMainWindow,Interfaz):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -29,12 +23,13 @@ class Administrador(QMainWindow,Interfaz):
         self.btn_agregar.clicked.connect(self.agregar_producto)
         self.btn_buscar.clicked.connect(self.ver_productos)
         self.tabla_productos.doubleClicked.connect(self.on_click)
+        self.btn_editar.clicked.connect(self.cambio_datos)
 
     @pyqtSlot()
     def on_click(self):
         print("\n")
         for currentQTableWidgetItem in self.tabla_productos.selectedItems():
-            self.editar_producto(currentQTableWidgetItem.row())
+            self.select_producto(currentQTableWidgetItem.row())
 
     def agregar_producto(self):
         p2=[]
@@ -57,7 +52,8 @@ class Administrador(QMainWindow,Interfaz):
         if(ind==0):
           p2.append({'codigo':a_codigo, 'nombre':a_nombre,'stock':str(a_stock),'precio_compra':str(a_precio_compra),'precio_venta':str(a_precio_venta),'descripcion':a_descripcion});
         else:
-          QMessageBox.question(self, "ALERTA", "Este codigo de producto ya esta usado.", QMessageBox.Ok)
+          QMessageBox.critical(self, "ALERTA", "Este código de producto ya está usado.", QMessageBox.Ok)
+          return
 
         toCSV = p2
         keys = toCSV[0].keys()
@@ -67,7 +63,50 @@ class Administrador(QMainWindow,Interfaz):
             dict_writer.writerows(toCSV)
         QMessageBox.question(self, "Agregar Producto", "Se agrego con Exito", QMessageBox.Ok)
 
-    def editar_producto(self,fila):
+    def cambio_datos(self,fila):
+        p2=[]
+        with open('../productos/productos.csv') as csvarchivo:
+          entrada  = csv.DictReader(csvarchivo)
+          for reg in entrada:
+              p2.append(reg)
+        for currentQTableWidgetItem in self.tabla_productos.selectedItems():
+            fila=currentQTableWidgetItem.row()
+
+        e_codigo=(self.e_codigo.text())
+        e_nombre=(self.e_nombre.text())
+        e_stock=(self.e_stock.value())
+        e_precio_compra=(self.e_precio_compra.value())
+        e_precio_venta=(self.e_precio_venta.value())
+        e_descripcion=(self.e_descripcion.text())
+        cod=self.tabla_productos.item(fila,0).text()
+        ind=True
+        for r in p2:
+          if  r['codigo'] ==  e_codigo:
+            ind=False
+            break
+        if (ind):
+          for r in p2:
+            if  r['codigo'] == cod:
+              r['codigo']=e_codigo
+              r['nombre']=e_nombre
+              r['stock']=e_stock
+              r['precio_compra']=e_precio_compra
+              r['precio_venta']=e_precio_venta
+              r['descripcion']=e_descripcion
+              break
+          toCSV = p2
+          keys = toCSV[0].keys()
+          with open('../productos/productos.csv', 'w') as output_file:
+              dict_writer = csv.DictWriter(output_file, keys)
+              dict_writer.writeheader()
+              dict_writer.writerows(toCSV)
+          QMessageBox.question(self, "Editó el Producto "+cod, "Se guardo con Exito", QMessageBox.Ok)
+          self.b_producto.setText(e_codigo)
+          self.ver_productos()
+        else:
+          QMessageBox.critical(self, "ALERTA", "Este código de producto ya esta usado.", QMessageBox.Ok)
+
+    def select_producto(self,fila):
         self.e_codigo.setText(self.tabla_productos.item(fila,0).text())
         self.e_nombre.setText(self.tabla_productos.item(fila,1).text())
         self.e_stock.setValue(int(self.tabla_productos.item(fila,2).text()))
@@ -110,7 +149,7 @@ class Administrador(QMainWindow,Interfaz):
           self.busqueda('codigo')
         else:
           self.busqueda('nombre')
-
+    
 #Instancia para iniciar una aplicación
 app = QApplication(sys.argv)
 _ventana = Administrador()

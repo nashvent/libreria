@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
+from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
@@ -43,7 +43,7 @@ class Lista(QDialog):
     @pyqtSlot()
     def on_click(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():
-            scelf.agregarCodigo(currentQTableWidgetItem.row())
+            self.agregarCodigo(currentQTableWidgetItem.row())
     
         
 class Pedido(QMainWindow):
@@ -56,7 +56,7 @@ class Pedido(QMainWindow):
         self.botonLista.clicked.connect(self.mostrarLista)
         self.botonAgregar.clicked.connect(self.agregarProducto)
         self.quitarProducto.clicked.connect(self.productoRemovido)
-    
+        self.cancelarPedido.clicked.connect(self.limpiarPedido)
     def mostrarLista(self):
         self.lista.show()
 
@@ -75,6 +75,8 @@ class Pedido(QMainWindow):
         pos=pos1
         cantidad=self.cantidadPedido.value()
         if(pos==-1):
+            QMessageBox.question(self, "ALERTA", "Este codigo de producto no existe.", QMessageBox.Ok)
+            self.lineaCodigo.setText('')
             return
         else:
             self.tablePedido.setRowCount(self.tamPedido+1)
@@ -87,13 +89,23 @@ class Pedido(QMainWindow):
             self.tablePedido.setItem(self.tamPedido,4,QTableWidgetItem(total))
             self.tamPedido=self.tamPedido+1
             self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
+
     def productoRemovido(self):
-        self.tamPedido=self.tamPedido-1
+        
         for currentQTableWidgetItem in self.tablePedido.selectedItems():
             self.TotalPedido=self.TotalPedido-float(self.tablePedido.item(currentQTableWidgetItem.row(),4).text())
             self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
             self.tablePedido.removeRow(currentQTableWidgetItem.row())
-
+            self.tamPedido=self.tamPedido-1
+            print (self.tamPedido)
+    def limpiarPedido(self):
+        self.lineaCodigo.setText('')
+        self.TotalPedido=0;
+        self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
+        self.tamPedido=0
+        self.tablePedido.setRowCount(self.tamPedido)
+        self.cantidadPedido.setValue(1)
+        
 app = QApplication(sys.argv)
 lista=Lista()
 pedido = Pedido(lista)

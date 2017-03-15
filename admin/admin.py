@@ -2,14 +2,11 @@
 import sys
 import csv
 import os
-import pandas as pd
-IB = os.environ.get('INSTABASE_URI',None) is not None
-open = ib.open if IB else open
-
-from PyQt5.QtWidgets import QApplication, QMainWindow,QMessageBox
+from PyQt5.QtWidgets import QMessageBox,QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
+
+from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtGui, QtCore
 
 class Interfaz(object):
@@ -19,7 +16,7 @@ class Interfaz(object):
         else: event.ignore()
 
 productos=[]
-with open('productos.csv') as csvarchivo:
+with open('../productos/productos.csv') as csvarchivo:
     entrada = csv.DictReader(csvarchivo)
     for reg in entrada:
         productos.append(reg)
@@ -30,9 +27,18 @@ class Administrador(QMainWindow,Interfaz):
         uic.loadUi("admin.ui", self)
         
         self.btn_agregar.clicked.connect(self.agregar_producto)
+        self.btn_buscar.clicked.connect(self.ver_productos)
+        self.tabla_productos.doubleClicked.connect(self.on_click)
+
+    @pyqtSlot()
+    def on_click(self):
+        print("\n")
+        for currentQTableWidgetItem in self.tabla_productos.selectedItems():
+            self.editar_producto(currentQTableWidgetItem.row())
+
     def agregar_producto(self):
         p2=[]
-        with open('productos.csv') as csvarchivo:
+        with open('../productos/productos.csv') as csvarchivo:
           entrada  = csv.DictReader(csvarchivo)
           for reg in entrada:
               p2.append(reg)
@@ -51,27 +57,59 @@ class Administrador(QMainWindow,Interfaz):
         if(ind==0):
           p2.append({'codigo':a_codigo, 'nombre':a_nombre,'stock':str(a_stock),'precio_compra':str(a_precio_compra),'precio_venta':str(a_precio_venta),'descripcion':a_descripcion});
         else:
-          QMessageBox.question(self, "Alerta!", "Este codigo de producto ya esta usado.", QMessageBox.Ok)
-          
+          QMessageBox.question(self, "ALERTA", "Este codigo de producto ya esta usado.", QMessageBox.Ok)
+
         toCSV = p2
         keys = toCSV[0].keys()
-        with open('productos.csv', 'w') as output_file:
+        with open('../productos/productos.csv', 'w') as output_file:
             dict_writer = csv.DictWriter(output_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(toCSV)
+        QMessageBox.question(self, "Agregar Producto", "Se agrego con Exito", QMessageBox.Ok)
 
-    def editar_producto(self):
-        e_codigo=(self.e_codigo.text())
-        e_nombre=(self.e_nombre.text())
-        e_stock=(self.e_stock.value())
-        e_precio_compra=(self.e_precio_compra.value())
-        e_precio_venta=(self.e_precio_venta.value())
-        e_descripcion=(self.e_descripcion.text())
-        print (e_codigo,e_nombre,e_stock,e_precio_compra,e_precio_venta,e_descripcion)
+    def editar_producto(self,fila):
+        self.e_codigo.setText(self.tabla_productos.item(fila,0).text())
+        self.e_nombre.setText(self.tabla_productos.item(fila,1).text())
+        self.e_stock.setValue(int(self.tabla_productos.item(fila,2).text()))
+        self.e_precio_compra.setValue(float(self.tabla_productos.item(fila,3).text()))
+        self.e_precio_venta.setValue(float(self.tabla_productos.item(fila,4).text()))
+        self.e_descripcion.setText(self.tabla_productos.item(fila,5).text())
         
-    def tabla_productos(self)
-        for r in productos
-          
+    def filtro_busqueda(self,x,y):
+        if(len(x)>len(y)):
+          tmin=len(y)
+          x=x[:tmin]
+        else:
+          tmin=len(x)
+          y=y[:tmin]
+        if (x==y):
+          return True
+        return False
+    def busqueda(self,busca):
+        i=0
+        temp=True
+        with open('../productos/productos.csv') as csvarchivo:
+          cpd_product  = csv.DictReader(csvarchivo)
+          for r in cpd_product:
+            if(self.filtro_busqueda(r[busca],self.b_producto.text())):
+                self.tabla_productos.setRowCount(i+1)
+                self.tabla_productos.setItem(i,0, QTableWidgetItem(r['codigo']))
+                self.tabla_productos.setItem(i,1, QTableWidgetItem(r['nombre']))
+                self.tabla_productos.setItem(i,2, QTableWidgetItem(r['stock']))
+                self.tabla_productos.setItem(i,3, QTableWidgetItem(r['precio_compra']))
+                self.tabla_productos.setItem(i,4, QTableWidgetItem(r['precio_venta']))
+                self.tabla_productos.setItem(i,5, QTableWidgetItem(r['descripcion']))
+                i=i+1
+                temp=False
+          if(temp):
+              self.tabla_productos.setRowCount(0)
+
+    def ver_productos(self):
+        tipo_buscar=(self.b_codigo.currentText())
+        if (tipo_buscar=='Código'):
+          self.busqueda('codigo')
+        else:
+          self.busqueda('nombre')
 
 #Instancia para iniciar una aplicación
 app = QApplication(sys.argv)

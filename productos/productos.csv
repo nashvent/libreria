@@ -1,6 +1,6 @@
 codigo,nombre,stock,precio_compra,precio_venta,descripcion
-23,borrador,20,2.0,3.0,artesco
-25,colores alpha,12,7.0,11.0,vikingo de 20 colores
-20,papel,12,4.0,7.0,negro
-21,folder,23,5.0,8.0,a4
-22,cinta,10,3.0,6.0,blanca
+20,cartuchera,8,6.0,9.0,negra
+21,cinta,10,4.0,4.0,blanca
+22,borrador,12,1.0,7.0,artesco
+23,cuaderno,15,4.0,10.0,alpha
+24,goma,15,2.0,4.0,uhu

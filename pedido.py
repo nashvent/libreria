@@ -12,7 +12,6 @@ with open('productos/productos.csv') as csvarchivo:
         productos.append(reg)
 #print(len(productos))
 
-
 class Lista(QDialog): 
     def __init__(self):
         pedido=Pedido(self)
@@ -91,7 +90,6 @@ class Pedido(QMainWindow):
             self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
 
     def productoRemovido(self):
-        
         for currentQTableWidgetItem in self.tablePedido.selectedItems():
             self.TotalPedido=self.TotalPedido-float(self.tablePedido.item(currentQTableWidgetItem.row(),4).text())
             self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
@@ -105,11 +103,23 @@ class Pedido(QMainWindow):
         self.tamPedido=0
         self.tablePedido.setRowCount(self.tamPedido)
         self.cantidadPedido.setValue(1)
+
+class Documento(QMainWindow): 
+    def __init__(self):
+        super().__init__()
+        uic.loadUi("ui/documento.ui", self)
+        self.initUI()
+        
+    def initUI(self):
+        self.show()
+        
         
 app = QApplication(sys.argv)
 lista=Lista()
+documento=Documento()
 pedido = Pedido(lista)
 lista.pedido=pedido
+
 pedido.show()
 app.exec_()
 

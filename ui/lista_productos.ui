@@ -22,6 +22,9 @@
      <height>221</height>
     </rect>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
+   </property>
    <property name="rowCount">
     <number>4</number>
    </property>
@@ -68,7 +71,7 @@
     <string>Lista de elementos</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="elegirProducto">
    <property name="geometry">
     <rect>
      <x>490</x>

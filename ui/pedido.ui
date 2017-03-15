@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Pedido</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -42,7 +42,7 @@
        <widget class="QGroupBox" name="groupBox">
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -117,20 +117,21 @@
          </item>
          <item>
           <widget class="QPushButton" name="botonLista">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
-           </property>
            <property name="text">
-            <string>Lista de Productos</string>
+            <string>Ver lista de productos</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QTableWidget" name="tablePedido">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
+           </property>
            <property name="rowCount">
             <number>1</number>
            </property>
@@ -166,7 +167,7 @@
           </widget>
          </item>
          <item alignment="Qt::AlignLeft">
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="quitarProducto">
            <property name="font">
             <font>
              <pointsize>10</pointsize>
@@ -204,7 +205,7 @@
             <widget class="QLabel" name="TotalPedidoLabel">
              <property name="font">
               <font>
-               <pointsize>11</pointsize>
+               <pointsize>17</pointsize>
               </font>
              </property>
              <property name="text">

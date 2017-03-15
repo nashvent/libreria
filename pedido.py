@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
+from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
@@ -21,6 +21,7 @@ class Lista(QDialog):
         self.initUI()
     def initUI(self):
         self.tableWidget.doubleClicked.connect(self.on_click)
+        self.elegirProducto.clicked.connect(self.productoElegido)
         #self.tableWidget.setItem(0,0, QTableWidgetItem("Cell (1,1)"))
         i=0
         self.tableWidget.setRowCount(len(productos))
@@ -30,17 +31,20 @@ class Lista(QDialog):
             self.tableWidget.setItem(i,2, QTableWidgetItem(productos[i]['precio_venta']))
             self.tableWidget.setItem(i,3, QTableWidgetItem(productos[i]['stock']))
             i=i+1
-    
 
-    def agregarCodigo(self,pos):
-        self.pedido.lineaCodigo.setText(productos[pos]['codigo'])
-        
-    @pyqtSlot()
-    def on_click(self):
-        print("\n")
+    def productoElegido(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():
             self.agregarCodigo(currentQTableWidgetItem.row())
 
+    def agregarCodigo(self,pos):
+        self.pedido.lineaCodigo.setText(productos[pos]['codigo'])
+        self.hide()
+        
+    @pyqtSlot()
+    def on_click(self):
+        for currentQTableWidgetItem in self.tableWidget.selectedItems():
+            self.agregarCodigo(currentQTableWidgetItem.row())
+    
         
 class Pedido(QMainWindow):
     def __init__(self,lista):
@@ -51,6 +55,8 @@ class Pedido(QMainWindow):
         uic.loadUi("ui/pedido.ui", self)
         self.botonLista.clicked.connect(self.mostrarLista)
         self.botonAgregar.clicked.connect(self.agregarProducto)
+        self.quitarProducto.clicked.connect(self.productoRemovido)
+        self.cancelarPedido.clicked.connect(self.limpiarPedido)
     def mostrarLista(self):
         self.lista.show()
 
@@ -69,6 +75,8 @@ class Pedido(QMainWindow):
         pos=pos1
         cantidad=self.cantidadPedido.value()
         if(pos==-1):
+            QMessageBox.question(self, "ALERTA", "Este codigo de producto no existe.", QMessageBox.Ok)
+            self.lineaCodigo.setText('')
             return
         else:
             self.tablePedido.setRowCount(self.tamPedido+1)
@@ -81,6 +89,22 @@ class Pedido(QMainWindow):
             self.tablePedido.setItem(self.tamPedido,4,QTableWidgetItem(total))
             self.tamPedido=self.tamPedido+1
             self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
+
+    def productoRemovido(self):
+        
+        for currentQTableWidgetItem in self.tablePedido.selectedItems():
+            self.TotalPedido=self.TotalPedido-float(self.tablePedido.item(currentQTableWidgetItem.row(),4).text())
+            self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
+            self.tablePedido.removeRow(currentQTableWidgetItem.row())
+            self.tamPedido=self.tamPedido-1
+            print (self.tamPedido)
+    def limpiarPedido(self):
+        self.lineaCodigo.setText('')
+        self.TotalPedido=0;
+        self.TotalPedidoLabel.setText('S/.'+str(self.TotalPedido))
+        self.tamPedido=0
+        self.tablePedido.setRowCount(self.tamPedido)
+        self.cantidadPedido.setValue(1)
         
 app = QApplication(sys.argv)
 lista=Lista()

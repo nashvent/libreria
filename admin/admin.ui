@@ -36,7 +36,7 @@
         <string>Agregar</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="1">
+        <item row="1" column="1">
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
            <string>Datos del Producto</string>
@@ -63,7 +63,34 @@
            </item>
            <item>
             <layout class="QGridLayout" name="gridLayout_2">
-             <item row="3" column="1">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Código :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="a_codigo"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Nombre :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="a_nombre"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Stock :</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
               <widget class="QSpinBox" name="a_stock">
                <property name="maximum">
                 <number>9999</number>
@@ -74,69 +101,42 @@
               </widget>
              </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="label_4">
                <property name="text">
-                <string>Stock :</string>
+                <string>Precio de Compra c/u :</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="a_nombre"/>
-             </item>
-             <item row="4" column="1">
+             <item row="3" column="1">
               <widget class="QDoubleSpinBox" name="a_precio_compra">
                <property name="maximum">
                 <double>9999.989999999999782</double>
                </property>
               </widget>
              </item>
-             <item row="6" column="1">
-              <widget class="QLineEdit" name="a_descripcion"/>
-             </item>
-             <item row="5" column="1">
-              <widget class="QDoubleSpinBox" name="a_precio_venta">
-               <property name="maximum">
-                <double>9999.989999999999782</double>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="a_codigo"/>
-             </item>
-             <item row="5" column="0">
+             <item row="4" column="0">
               <widget class="QLabel" name="label_5">
                <property name="text">
                 <string>Precio de Venta c/u :</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Código :</string>
+             <item row="4" column="1">
+              <widget class="QDoubleSpinBox" name="a_precio_venta">
+               <property name="maximum">
+                <double>9999.989999999999782</double>
                </property>
               </widget>
              </item>
-             <item row="6" column="0">
+             <item row="5" column="0">
               <widget class="QLabel" name="label_6">
                <property name="text">
                 <string>Descripción :</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>Nombre :</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>Precio de Compra c/u :</string>
-               </property>
-              </widget>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="a_descripcion"/>
              </item>
             </layout>
            </item>
@@ -150,21 +150,21 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="2">
-         <layout class="QVBoxLayout" name="verticalLayout_11">
-          <property name="leftMargin">
-           <number>20</number>
-          </property>
-         </layout>
-        </item>
-        <item row="0" column="0">
+        <item row="1" column="0">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="leftMargin">
            <number>20</number>
           </property>
          </layout>
         </item>
-        <item row="1" column="1" alignment="Qt::AlignHCenter">
+        <item row="1" column="2">
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
+         </layout>
+        </item>
+        <item row="2" column="1" alignment="Qt::AlignHCenter">
          <widget class="QPushButton" name="btn_agregar">
           <property name="font">
            <font>
@@ -266,7 +266,7 @@
               <bool>false</bool>
              </property>
              <property name="rowCount">
-              <number>1</number>
+              <number>0</number>
              </property>
              <property name="columnCount">
               <number>6</number>
@@ -277,7 +277,6 @@
              <attribute name="horizontalHeaderMinimumSectionSize">
               <number>37</number>
              </attribute>
-             <row/>
              <column>
               <property name="text">
                <string>Código</string>
@@ -321,34 +320,6 @@
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
             <layout class="QGridLayout" name="gridLayout_3">
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>Stock:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>Precio de Compra c/u:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>Precio de Venta c/u:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>Descripción:</string>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_9">
                <property name="text">
@@ -356,23 +327,8 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
-              <widget class="QSpinBox" name="e_stock"/>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="e_nombre"/>
-             </item>
              <item row="0" column="1">
               <widget class="QLineEdit" name="e_codigo"/>
-             </item>
-             <item row="5" column="1">
-              <widget class="QDoubleSpinBox" name="e_precio_venta"/>
-             </item>
-             <item row="4" column="1">
-              <widget class="QDoubleSpinBox" name="e_precio_compra"/>
-             </item>
-             <item row="6" column="1">
-              <widget class="QLineEdit" name="e_descripcion"/>
              </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_11">
@@ -380,6 +336,49 @@
                 <string>Nombre:</string>
                </property>
               </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="e_nombre"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>Stock:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QSpinBox" name="e_stock"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>Precio de Compra c/u:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBox" name="e_precio_compra"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>Precio de Venta c/u:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QDoubleSpinBox" name="e_precio_venta"/>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Descripción:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="e_descripcion"/>
              </item>
             </layout>
            </item>

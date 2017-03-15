@@ -24,6 +24,7 @@ class Administrador(QMainWindow,Interfaz):
         self.btn_buscar.clicked.connect(self.ver_productos)
         self.tabla_productos.doubleClicked.connect(self.on_click)
         self.btn_editar.clicked.connect(self.cambio_datos)
+        self.btn_eliminar.clicked.connect(self.eliminar)
 
     @pyqtSlot()
     def on_click(self):
@@ -131,6 +132,7 @@ class Administrador(QMainWindow,Interfaz):
           cpd_product  = csv.DictReader(csvarchivo)
           for r in cpd_product:
             if(self.filtro_busqueda(r[busca],self.b_producto.text())):
+              if(r['codigo']!=''):
                 self.tabla_productos.setRowCount(i+1)
                 self.tabla_productos.setItem(i,0, QTableWidgetItem(r['codigo']))
                 self.tabla_productos.setItem(i,1, QTableWidgetItem(r['nombre']))
@@ -149,7 +151,38 @@ class Administrador(QMainWindow,Interfaz):
           self.busqueda('codigo')
         else:
           self.busqueda('nombre')
-    
+    def borrar_producto(self,cod_borrar):
+        p2=[]
+        with open('../productos/productos.csv') as csvarchivo:
+          entrada  = csv.DictReader(csvarchivo)
+          for reg in entrada:
+              p2.append(reg)
+        for r in p2:
+          if  r['codigo'] ==  cod_borrar:
+            p2.remove(r)
+            toCSV = p2
+            keys = toCSV[0].keys()
+            with open('../productos/productos.csv', 'w') as output_file:
+                dict_writer = csv.DictWriter(output_file, keys)
+                dict_writer.writeheader()
+                dict_writer.writerows(toCSV)
+            QMessageBox.question(self, "Elimino Producto "+cod_borrar, "Se elimino con Exito", QMessageBox.Ok)
+            self.b_producto.setText('')
+            self.ver_productos()
+            break
+
+
+
+    def eliminar(self):
+        for currentQTableWidgetItem in self.tabla_productos.selectedItems():
+          fila=currentQTableWidgetItem.row()
+          cod_borrar=self.tabla_productos.item(fila,0).text()
+          self.tabla_productos.removeRow(fila)
+          self.borrar_producto(cod_borrar)
+
+
+
+
 #Instancia para iniciar una aplicación
 app = QApplication(sys.argv)
 _ventana = Administrador()

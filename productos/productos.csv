@@ -1,15 +1,6 @@
 codigo,nombre,stock,precio_compra,precio_venta,descripcion
-20,lapicero,38,9.00,10.00,pilot
-21,cartuchera,15,15.00,20.00,alpha
-22,papel,12,4.00,7.00,negro
-23,folder,23,5.00,8.00,a4
-24,cinta,10,3.00,6.00,blanca
-25,gomita,10,20.0,5.0,haha
-26,file,200,2.0,2.5,a3
-28,goma,100,2.0,3.0,uhu
-30,cuaderno,47,2.0,5.0,standford
-31,regla,22,0.5,2.0,flexible
-32,regla rosa,22,0.5,2.0,flexible
-33,tinta,4,2.0,3.0,negra
-36,borrador,5,1.0,2.0,artesco
-37,carcasa,5,10.0,15.0,samsung j5
+23,borrador,20,2.0,3.0,artesco
+25,colores alpha,12,7.0,11.0,vikingo de 20 colores
+20,papel,12,4.0,7.0,negro
+21,folder,23,5.0,8.0,a4
+22,cinta,10,3.0,6.0,blanca

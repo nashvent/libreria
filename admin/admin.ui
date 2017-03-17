@@ -266,7 +266,7 @@
            <item>
             <widget class="QLabel" name="label_15">
              <property name="text">
-              <string>Seleccione el producto para eliminar o editar:</string>
+              <string>Doble click en el producto para eliminar o editar:</string>
              </property>
             </widget>
            </item>
@@ -480,25 +480,51 @@
              <item>
               <widget class="QLabel" name="label_16">
                <property name="text">
-                <string>Fecha: </string>
+                <string>Fecha desde: </string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QDateEdit" name="dateEdit"/>
+              <widget class="QDateEdit" name="ini_fecha">
+               <property name="displayFormat">
+                <string>dd/MM/yyyy</string>
+               </property>
+               <property name="timeSpec">
+                <enum>Qt::LocalTime</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_19">
+               <property name="text">
+                <string>hasta:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDateEdit" name="fin_fecha">
+               <property name="displayFormat">
+                <string>dd/MM/yyyy</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_18">
                <property name="text">
-                <string>Hora:</string>
+                <string>Buscar por:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QTimeEdit" name="timeEdit"/>
+              <widget class="QLineEdit" name="b_dato"/>
              </item>
              <item>
-              <widget class="QComboBox" name="comboBox_2">
+              <widget class="QComboBox" name="tipo_bolefac">
+               <item>
+                <property name="text">
+                 <string>Ambos</string>
+                </property>
+               </item>
                <item>
                 <property name="text">
                  <string>Boletas</string>
@@ -506,13 +532,22 @@
                </item>
                <item>
                 <property name="text">
-                 <string>Factura</string>
+                 <string>Facturas</string>
                 </property>
                </item>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QComboBox" name="tipo_busco">
+               <item>
+                <property name="text">
+                 <string>Fecha</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_bolefac">
                <property name="text">
                 <string>Buscar</string>
                </property>
@@ -521,7 +556,7 @@
             </layout>
            </item>
            <item row="1" column="1">
-            <widget class="QTableWidget" name="tableWidget">
+            <widget class="QTableWidget" name="tabla_bolefac">
              <property name="font">
               <font>
                <pointsize>11</pointsize>
@@ -531,11 +566,6 @@
               <number>1</number>
              </property>
              <row/>
-             <column>
-              <property name="text">
-               <string>Código</string>
-              </property>
-             </column>
              <column>
               <property name="text">
                <string>Fecha</string>

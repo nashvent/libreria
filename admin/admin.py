@@ -5,7 +5,7 @@ import os
 from PyQt5.QtWidgets import QMessageBox,QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
-
+from PyQt5.QtCore import QDate
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtGui, QtCore
 
@@ -20,18 +20,22 @@ class Administrador(QMainWindow,Interfaz):
         QMainWindow.__init__(self)
         uic.loadUi("admin.ui", self)
         
+        self.tipo_bolefac.currentTextChanged.connect(self.itemChanged)
         self.btn_agregar.clicked.connect(self.agregar_producto)
         self.btn_buscar.clicked.connect(self.ver_productos)
         self.tabla_productos.doubleClicked.connect(self.on_click)
         self.btn_editar.clicked.connect(self.cambio_datos)
         self.btn_eliminar.clicked.connect(self.eliminar)
+        self.ini_fecha.setDate(QDate.currentDate())
+        self.fin_fecha.setDate(QDate.currentDate())
+        self.btn_bolefac.clicked.connect(self.ver_bolefac)
 
     @pyqtSlot()
     def on_click(self):
         print("\n")
         for currentQTableWidgetItem in self.tabla_productos.selectedItems():
             self.select_producto(currentQTableWidgetItem.row())
-
+    #Agregar Productos
     def agregar_producto(self):
         p2=[]
         with open('../productos/productos.csv') as csvarchivo:
@@ -63,6 +67,8 @@ class Administrador(QMainWindow,Interfaz):
             dict_writer.writeheader()
             dict_writer.writerows(toCSV)
         QMessageBox.question(self, "Agregar Producto", "Se agrego con Exito", QMessageBox.Ok)
+   
+    #Edicion del Producto
     def limpiar(self):
         self.e_codigo.setText('')
         self.e_nombre.setText('')
@@ -128,7 +134,8 @@ class Administrador(QMainWindow,Interfaz):
         self.e_precio_compra.setValue(float(self.tabla_productos.item(fila,3).text()))
         self.e_precio_venta.setValue(float(self.tabla_productos.item(fila,4).text()))
         self.e_descripcion.setText(self.tabla_productos.item(fila,5).text())
-        
+    
+    #Busqueda
     def filtro_busqueda(self,x,y):
         if(len(x)>len(y)):
           tmin=len(y)
@@ -166,6 +173,8 @@ class Administrador(QMainWindow,Interfaz):
           self.busqueda('codigo')
         else:
           self.busqueda('nombre')
+
+    #Eliminar Productos
     def borrar_producto(self,cod_borrar):
         p2=[]
         with open('../productos/productos.csv') as csvarchivo:
@@ -193,6 +202,101 @@ class Administrador(QMainWindow,Interfaz):
           cod_borrar=self.tabla_productos.item(fila,0).text()
           self.tabla_productos.removeRow(fila)
           self.borrar_producto(cod_borrar)
+    
+    #Buscar Boletas y Facturas
+    def compara_fechas(self,x,y):
+        diax=x[1:3]
+        mesx=x[4:-5]
+        añox=x[-4:]
+
+        diay=y[1:3]
+        mesy=y[4:-5]
+        añoy=y[-4:]
+
+        if añox<añoy:
+          return True
+        elif añox==añoy:
+          if mesx<mesy:
+            return True
+          elif mesx==mesy:
+            if diax<=diay:
+              return True
+        return False
+
+    def busca_por_fecha(self,tipo):
+        i=0
+        temp=True
+        fecha_ini='/'+self.ini_fecha.date().toString('dd/MM/yyyy')
+        fecha_fin='/'+self.fin_fecha.date().toString('dd/MM/yyyy')
+        
+        if (self.compara_fechas(fecha_ini,fecha_fin)):
+         with open('../productos/boletas_y_facturas.csv') as csvarchivo:
+            cpd_product  = csv.DictReader(csvarchivo)
+            for r in cpd_product:
+              if( (r['tipo']==tipo or tipo=='Ambos') and self.compara_fechas(fecha_ini,r['fecha']) and self.compara_fechas(r['fecha'],fecha_fin)):
+                  self.tabla_bolefac.setRowCount(i+1)
+                  self.tabla_bolefac.setItem(i,0, QTableWidgetItem(r['fecha']))
+                  self.tabla_bolefac.setItem(i,1, QTableWidgetItem(r['hora']))
+                  self.tabla_bolefac.setItem(i,2, QTableWidgetItem(r['nombre']))
+                  self.tabla_bolefac.setItem(i,3, QTableWidgetItem(r['dni_ruc']))
+                  self.tabla_bolefac.setItem(i,4, QTableWidgetItem(r['direccion']))
+                  self.tabla_bolefac.setItem(i,5, QTableWidgetItem(r['total']))
+                  i=i+1
+                  temp=False
+            if(temp):
+                self.tabla_bolefac.setRowCount(0)
+        else:
+          QMessageBox.critical(self, "ALERTA", "Ingrese correctamente la fecha", QMessageBox.Ok)
+    
+    def busca_por_dni_ruc(self,tipo):
+        i=0
+        temp=True
+        with open('../productos/boletas_y_facturas.csv') as csvarchivo:
+          cpd_product  = csv.DictReader(csvarchivo)
+          for r in cpd_product:
+            if( r['tipo']==tipo and self.filtro_busqueda(r['dni_ruc'],self.b_dato.text())):
+                self.tabla_bolefac.setRowCount(i+1)
+                self.tabla_bolefac.setItem(i,0, QTableWidgetItem(r['fecha']))
+                self.tabla_bolefac.setItem(i,1, QTableWidgetItem(r['hora']))
+                self.tabla_bolefac.setItem(i,2, QTableWidgetItem(r['nombre']))
+                self.tabla_bolefac.setItem(i,3, QTableWidgetItem(r['dni_ruc']))
+                self.tabla_bolefac.setItem(i,4, QTableWidgetItem(r['direccion']))
+                self.tabla_bolefac.setItem(i,5, QTableWidgetItem(r['total']))
+                i=i+1
+                temp=False
+          if(temp):
+              self.tabla_bolefac.setRowCount(0)
+    def itemChanged(self):
+        self.tipo_busco.clear()
+
+        list1 = [self.tr('Fecha')]
+        list2 = [self.tr('Fecha'),self.tr('DNI')]
+        list3 = [self.tr('Fecha'),self.tr('RUC')]
+
+        if(self.tipo_bolefac.currentText()=='Ambos'):
+            self.tipo_busco.addItems(list1)
+        elif(self.tipo_bolefac.currentText()=='Boletas'):
+            self.tipo_busco.addItems(list2)
+        else:
+            self.tipo_busco.addItems(list3)
+
+    def ver_bolefac(self):
+        bolefac=(self.tipo_bolefac.currentText())
+        tipo_b=(self.tipo_busco.currentText())
+        if(bolefac =='Boletas' and tipo_b=='Fecha'):
+          self.tabla_bolefac.horizontalHeaderItem(3).setText("DNI");
+          self.busca_por_fecha('b')
+        elif(bolefac =='Facturas' and tipo_b=='Fecha'):
+          self.tabla_bolefac.horizontalHeaderItem(3).setText("RUC");
+          self.busca_por_fecha('f')
+        elif(bolefac =='Boletas' and tipo_b=='DNI'):
+          self.tabla_bolefac.horizontalHeaderItem(3).setText("DNI");
+          self.busca_por_dni_ruc('b')
+        elif(bolefac =='Facturas' and tipo_b=='RUC'):
+          self.tabla_bolefac.horizontalHeaderItem(3).setText("RUC");
+          self.busca_por_dni_ruc('f')
+        elif(bolefac =='Ambos' and tipo_b=='Fecha'):
+          self.busca_por_fecha('Ambos')
 
 #Instancia para iniciar una aplicación
 app = QApplication(sys.argv)

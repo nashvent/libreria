@@ -1,5 +1,5 @@
-codigo,nombre,stock,precio_compra,precio_venta,descripcion
-20,cartuchera,8,6.0,9.0,negra
-22,borrador,12,1.0,7.0,artesco
-24,goma,15,2.0,4.0,uhu
-26,carpeta,12,2.0,3.0,alpha
+codigo,nombre,stock,precio_compra,precio_venta,descripcion
+20,cartuchera,8,6.0,9.0,negra
+22,borrador,15,1.0,7.0,artesco
+24,goma,35,2.0,4.0,uhu
+26,carpeta,12,2.0,3.0,alpha

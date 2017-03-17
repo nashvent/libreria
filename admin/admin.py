@@ -63,6 +63,14 @@ class Administrador(QMainWindow,Interfaz):
             dict_writer.writeheader()
             dict_writer.writerows(toCSV)
         QMessageBox.question(self, "Agregar Producto", "Se agrego con Exito", QMessageBox.Ok)
+    def limpiar(self):
+        self.e_codigo.setText('')
+        self.e_nombre.setText('')
+        self.e_stock.setValue(0)
+        self.sumar_stock.setValue(0)
+        self.e_precio_compra.setValue(0)
+        self.e_precio_venta.setValue(0)
+        self.e_descripcion.setText('')
 
     def cambio_datos(self,fila):
         p2=[]
@@ -76,36 +84,42 @@ class Administrador(QMainWindow,Interfaz):
         e_codigo=(self.e_codigo.text())
         e_nombre=(self.e_nombre.text())
         e_stock=(self.e_stock.value())
+        e_sumar=(self.sumar_stock.value())
         e_precio_compra=(self.e_precio_compra.value())
         e_precio_venta=(self.e_precio_venta.value())
         e_descripcion=(self.e_descripcion.text())
-        cod=self.tabla_productos.item(fila,0).text()
-        ind=True
-        for r in p2:
-          if  r['codigo'] ==  e_codigo:
-            ind=False
-            break
-        if (ind):
+        if (e_codigo!='' or e_nombre!=''):
+          cod=self.tabla_productos.item(fila,0).text()
+          ind=True
           for r in p2:
-            if  r['codigo'] == cod:
-              r['codigo']=e_codigo
-              r['nombre']=e_nombre
-              r['stock']=e_stock
-              r['precio_compra']=e_precio_compra
-              r['precio_venta']=e_precio_venta
-              r['descripcion']=e_descripcion
+            if  r['codigo'] ==  e_codigo:
+              ind=False
               break
-          toCSV = p2
-          keys = toCSV[0].keys()
-          with open('../productos/productos.csv', 'w') as output_file:
-              dict_writer = csv.DictWriter(output_file, keys)
-              dict_writer.writeheader()
-              dict_writer.writerows(toCSV)
-          QMessageBox.question(self, "Editó el Producto "+cod, "Se guardo con Exito", QMessageBox.Ok)
-          self.b_producto.setText(e_codigo)
-          self.ver_productos()
+
+          if (ind or e_codigo==cod):
+            for r in p2:
+              if  r['codigo'] == cod:
+                r['codigo']=e_codigo
+                r['nombre']=e_nombre
+                r['stock']=e_stock + e_sumar
+                r['precio_compra']=e_precio_compra
+                r['precio_venta']=e_precio_venta
+                r['descripcion']=e_descripcion
+                break
+            toCSV = p2
+            keys = toCSV[0].keys()
+            with open('../productos/productos.csv', 'w') as output_file:
+                dict_writer = csv.DictWriter(output_file, keys)
+                dict_writer.writeheader()
+                dict_writer.writerows(toCSV)
+            QMessageBox.question(self, "Editó el Producto "+cod, "Se guardo con Exito", QMessageBox.Ok)
+            self.limpiar()
+            self.b_producto.setText(e_codigo)
+            self.ver_productos()
+          else:
+            QMessageBox.critical(self, "ALERTA", "Este código de producto ya esta usado.", QMessageBox.Ok)
         else:
-          QMessageBox.critical(self, "ALERTA", "Este código de producto ya esta usado.", QMessageBox.Ok)
+            QMessageBox.critical(self, "ALERTA", "Datos del producto sin llenar", QMessageBox.Ok)
 
     def select_producto(self,fila):
         self.e_codigo.setText(self.tabla_productos.item(fila,0).text())
@@ -125,6 +139,7 @@ class Administrador(QMainWindow,Interfaz):
         if (x==y):
           return True
         return False
+    
     def busqueda(self,busca):
         i=0
         temp=True
@@ -167,11 +182,10 @@ class Administrador(QMainWindow,Interfaz):
                 dict_writer.writeheader()
                 dict_writer.writerows(toCSV)
             QMessageBox.question(self, "Elimino Producto "+cod_borrar, "Se elimino con Exito", QMessageBox.Ok)
+            self.limpiar()
             self.b_producto.setText('')
             self.ver_productos()
             break
-
-
 
     def eliminar(self):
         for currentQTableWidgetItem in self.tabla_productos.selectedItems():
@@ -179,9 +193,6 @@ class Administrador(QMainWindow,Interfaz):
           cod_borrar=self.tabla_productos.item(fila,0).text()
           self.tabla_productos.removeRow(fila)
           self.borrar_producto(cod_borrar)
-
-
-
 
 #Instancia para iniciar una aplicación
 app = QApplication(sys.argv)

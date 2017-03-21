@@ -395,7 +395,48 @@ class Administrador(QMainWindow,Interfaz):
     def venta_vs_ganan(self):
       self.facturas_por_dia(True)
 
+    # Algoritmo quick-sort
+    def partition(self,myList, start, end):
+      pivot = myList[start]
+      left = start+1
+      right = end
+      done = False
+      while not done:
+          while left <= right and myList[left] <= pivot:
+              left = left + 1
+          while myList[right] >= pivot and right >=left:
+              right = right -1
+          if right < left:
+              done= True
+          else:
+              # swap places
+              temp=myList[left]
+              myList[left]=myList[right]
+              myList[right]=temp
+      # swap start with myList[right]
+      temp=myList[start]
+      myList[start]=myList[right]
+      myList[right]=temp
+      return right 
+
+    def quicksort(self,myList, start, end):
+      if start < end:
+          # partition the list
+          pivot = self.partition(myList, start, end)
+          # sort both halves
+          self.quicksort(myList, start, pivot-1)
+          self.quicksort(myList, pivot+1, end)
+      return myList
+
     #top 10 mas vendidos
+    def mas10(self,lista):
+      i=1
+      mayor=[]
+      while i<=10:
+        mayor.append(lista[len(lista)-i])
+        i=i+1
+      return mayor
+
     def mas_vendidos(self):
       i=0
       masv=[]
@@ -404,16 +445,21 @@ class Administrador(QMainWindow,Interfaz):
         cpd_product  = csv.DictReader(csvarchivo)
         for n in cpd_product:
           if(n['codigo']!=''):
-            self.tabla_top.setRowCount(i+1)
-            self.tabla_top.setItem(i,0, QTableWidgetItem(n['nombre']))
-            self.tabla_top.setItem(i,1, QTableWidgetItem(n['contador']))
+            #self.tabla_top.setRowCount(i+1)
+            #self.tabla_top.setItem(i,0, QTableWidgetItem(n['nombre']))
+            #self.tabla_top.setItem(i,1, QTableWidgetItem(n['contador']))
             nombre.append(n['nombre'])
-            masv.append(n['contador'])
-            i=i+1
+            masv.append(int(n['contador']))
+            #i=i+1
+      masv=self.quicksort(masv,0,len(masv)-1)
+      mas=self.mas10(masv)
+      print (mas)  
       plt.pie(masv, labels=nombre, autopct='%1.1f%%')
       plt.title("Top 10 más Vendidos", bbox={"facecolor":"0.8", "pad":5})
       plt.legend()
       plt.show()
+
+      
     #top 10 mas agotados
     def mas_agotados(self):
       i=0
@@ -433,7 +479,7 @@ class Administrador(QMainWindow,Interfaz):
       plt.title("Top 10 más Agotados", bbox={"facecolor":"0.8", "pad":5})
       plt.legend()
       plt.show()
-
+    
     # conteo total de reportes
     def reportes_totales(self):
       nv=0

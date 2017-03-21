@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>659</width>
-    <height>571</height>
+    <height>586</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -57,7 +57,7 @@
       <x>40</x>
       <y>60</y>
       <width>571</width>
-      <height>461</height>
+      <height>491</height>
      </rect>
     </property>
     <property name="title">
@@ -108,6 +108,8 @@
         <property name="font">
          <font>
           <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="text">
@@ -210,7 +212,7 @@
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>420</y>
+       <y>440</y>
        <width>111</width>
        <height>23</height>
       </rect>
@@ -223,7 +225,7 @@
      <property name="geometry">
       <rect>
        <x>250</x>
-       <y>350</y>
+       <y>390</y>
        <width>151</width>
        <height>21</height>
       </rect>
@@ -240,8 +242,8 @@
     <widget class="QLabel" name="totalCobro">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>350</y>
+       <x>410</x>
+       <y>390</y>
        <width>101</width>
        <height>21</height>
       </rect>
@@ -255,6 +257,64 @@
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="editarPedido">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>440</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Editar Pedido</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>360</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>IGV 18%:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="igvLabel">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>360</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>S/.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>

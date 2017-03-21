@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1145</width>
-    <height>665</height>
+    <width>1083</width>
+    <height>762</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -21,8 +21,8 @@
     <normaloff>icons/admin.png</normaloff>icons/admin.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
-    <item>
+   <layout class="QGridLayout" name="gridLayout_16">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="font">
        <font>
@@ -30,7 +30,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -655,7 +655,7 @@
         <item row="2" column="2">
          <widget class="QGroupBox" name="groupBox_5">
           <property name="title">
-           <string>Top 10 Productos Más Vendidos</string>
+           <string>Top 10 Productos</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="1" column="0">
@@ -667,6 +667,11 @@
               <number>1</number>
              </property>
              <row/>
+             <column>
+              <property name="text">
+               <string>Código</string>
+              </property>
+             </column>
              <column>
               <property name="text">
                <string>Producto</string>
@@ -828,6 +833,11 @@
              <row/>
              <column>
               <property name="text">
+               <string>Código</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
                <string>Producto</string>
               </property>
              </column>
@@ -977,64 +987,183 @@
         <string>Configuración</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_14">
-        <item row="1" column="1">
-         <widget class="QGroupBox" name="groupBox_9">
+        <item row="1" column="2">
+         <widget class="QGroupBox" name="groupBox_8">
           <property name="title">
-           <string>Datos de la Empresa</string>
+           <string>Cambio de contraseña del Administrador</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_11">
-           <item row="1" column="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_17">
-             <property name="leftMargin">
-              <number>40</number>
-             </property>
-            </layout>
-           </item>
-           <item row="1" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_16">
-             <property name="leftMargin">
-              <number>40</number>
-             </property>
-            </layout>
-           </item>
-           <item row="3" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_20">
-             <item>
-              <widget class="QLabel" name="label_43">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_5">
-               <property name="text">
-                <string>Vista Previa</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_44">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item row="0" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_25">
-             <item>
-              <widget class="QLabel" name="label_45">
+            <layout class="QGridLayout" name="gridLayout_15">
+             <item row="0" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_13">
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_46">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="label_28">
                <property name="text">
                 <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap>icons/admin.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
                </property>
               </widget>
              </item>
+             <item row="1" column="0">
+              <layout class="QVBoxLayout" name="verticalLayout_22">
+               <item>
+                <widget class="QLabel" name="label_41">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_21">
+               <item>
+                <widget class="QLabel" name="label_42">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_47">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
             </layout>
+           </item>
+           <item row="1" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_24">
+             <property name="leftMargin">
+              <number>40</number>
+             </property>
+            </layout>
+           </item>
+           <item row="1" column="1">
+            <layout class="QGridLayout" name="gridLayout_12">
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_38">
+               <property name="text">
+                <string>Contraseña:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_39">
+               <property name="text">
+                <string>Nueva Contraseña:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_37">
+               <property name="text">
+                <string>ID de Administrador:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="lineEdit_3"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_40">
+               <property name="text">
+                <string>Nueva Contraseña:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lineEdit_4"/>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="lineEdit_5"/>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="lineEdit_6"/>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_19">
+             <property name="leftMargin">
+              <number>40</number>
+             </property>
+            </layout>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_48">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_18"/>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="pushButton_4">
+             <property name="text">
+              <string>Guardar Contraseña</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
+         </layout>
+        </item>
+        <item row="1" column="3">
+         <layout class="QVBoxLayout" name="verticalLayout_26">
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
+         </layout>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <layout class="QVBoxLayout" name="verticalLayout_27">
+          <property name="topMargin">
+           <number>15</number>
+          </property>
+         </layout>
+        </item>
+        <item row="1" column="1">
+         <widget class="QGroupBox" name="groupBox_9">
+          <property name="title">
+           <string>Datos de la Empresa</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_13">
+           <item row="4" column="1">
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Guardar Cambios</string>
+             </property>
+            </widget>
            </item>
            <item row="1" column="1">
             <layout class="QGridLayout" name="gridLayout_10">
@@ -1104,186 +1233,60 @@
              </item>
             </layout>
            </item>
-           <item row="4" column="1">
-            <widget class="QPushButton" name="pushButton">
-             <property name="text">
-              <string>Guardar Cambios</string>
-             </property>
-            </widget>
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_20">
+             <item>
+              <widget class="QLabel" name="label_43">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="text">
+                <string>Vista Previa</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_44">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QGroupBox" name="groupBox_8">
-          <property name="title">
-           <string>Cambio de contraseña del Administrador</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_13">
            <item row="1" column="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_19">
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
              <property name="leftMargin">
               <number>40</number>
              </property>
             </layout>
            </item>
-           <item row="1" column="1">
-            <layout class="QGridLayout" name="gridLayout_12">
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_38">
-               <property name="text">
-                <string>Contraseña:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_39">
-               <property name="text">
-                <string>Nueva Contraseña:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_37">
-               <property name="text">
-                <string>ID de Administrador:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit_3"/>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_40">
-               <property name="text">
-                <string>Nueva Contraseña:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lineEdit_4"/>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLineEdit" name="lineEdit_5"/>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLineEdit" name="lineEdit_6"/>
-             </item>
-            </layout>
-           </item>
            <item row="1" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_24">
+            <layout class="QHBoxLayout" name="horizontalLayout_16">
              <property name="leftMargin">
               <number>40</number>
              </property>
             </layout>
            </item>
            <item row="0" column="1">
-            <layout class="QGridLayout" name="gridLayout_15">
-             <item row="0" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_13">
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_46">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLabel" name="label_28">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap>icons/admin.png</pixmap>
-               </property>
-               <property name="scaledContents">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <layout class="QVBoxLayout" name="verticalLayout_22">
-               <item>
-                <widget class="QLabel" name="label_41">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="1" column="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_21">
-               <item>
-                <widget class="QLabel" name="label_42">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLabel" name="label_47">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="topMargin">
+              <number>80</number>
+             </property>
             </layout>
-           </item>
-           <item row="3" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_18"/>
-           </item>
-           <item row="4" column="1">
-            <widget class="QPushButton" name="pushButton_4">
-             <property name="text">
-              <string>Guardar Contraseña</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLabel" name="label_48">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
            </item>
           </layout>
          </widget>
-        </item>
-        <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <property name="leftMargin">
-           <number>20</number>
-          </property>
-         </layout>
-        </item>
-        <item row="1" column="3">
-         <layout class="QVBoxLayout" name="verticalLayout_26">
-          <property name="leftMargin">
-           <number>20</number>
-          </property>
-         </layout>
-        </item>
-        <item row="0" column="1" colspan="2">
-         <layout class="QVBoxLayout" name="verticalLayout_27">
-          <property name="topMargin">
-           <number>15</number>
-          </property>
-         </layout>
         </item>
        </layout>
       </widget>
      </widget>
     </item>
-    <item alignment="Qt::AlignRight">
+    <item row="1" column="0" alignment="Qt::AlignRight">
      <widget class="QLabel" name="label_14">
       <property name="text">
        <string>Derechos Reservados a Multiviral     </string>

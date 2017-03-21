@@ -10,6 +10,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtGui, QtCore
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 class Interfaz(object):
     def closeEvent(self, event):
@@ -40,6 +41,7 @@ class Administrador(QMainWindow,Interfaz):
         self.btn_graficar_fd.clicked.connect(self.facturas_por_dia)
         self.btn_totalvg.clicked.connect(self.venta_vs_ganan)
         self.btn_mv.clicked.connect(self.mas_vendidos)
+        self.btn_mev.clicked.connect(self.menos_vendidos)
         self.btn_agotados.clicked.connect(self.mas_agotados)
         self.btn_abrir.clicked.connect(self.abrir)
 
@@ -395,90 +397,68 @@ class Administrador(QMainWindow,Interfaz):
     def venta_vs_ganan(self):
       self.facturas_por_dia(True)
 
-    # Algoritmo quick-sort
-    def partition(self,myList, start, end):
-      pivot = myList[start]
-      left = start+1
-      right = end
-      done = False
-      while not done:
-          while left <= right and myList[left] <= pivot:
-              left = left + 1
-          while myList[right] >= pivot and right >=left:
-              right = right -1
-          if right < left:
-              done= True
-          else:
-              # swap places
-              temp=myList[left]
-              myList[left]=myList[right]
-              myList[right]=temp
-      # swap start with myList[right]
-      temp=myList[start]
-      myList[start]=myList[right]
-      myList[right]=temp
-      return right 
-
-    def quicksort(self,myList, start, end):
-      if start < end:
-          # partition the list
-          pivot = self.partition(myList, start, end)
-          # sort both halves
-          self.quicksort(myList, start, pivot-1)
-          self.quicksort(myList, pivot+1, end)
-      return myList
-
-    #top 10 mas vendidos
-    def mas10(self,lista):
-      i=1
-      mayor=[]
-      while i<=10:
-        mayor.append(lista[len(lista)-i])
+    def llenar_top(self,p):
+      nombre=[]
+      masv=[]
+      i=0
+      while i<10:
+        self.tabla_top.setRowCount(i+1)
+        self.tabla_top.setItem(i,0, QTableWidgetItem(str(p['codigo'][i])))
+        self.tabla_top.setItem(i,1, QTableWidgetItem(p['nombre'][i]))
+        self.tabla_top.setItem(i,2, QTableWidgetItem(str(p['contador'][i])))
+        nombre.append(p['nombre'][i])
+        masv.append(p['contador'][i])
         i=i+1
-      return mayor
+      return nombre,masv
 
     def mas_vendidos(self):
-      i=0
-      masv=[]
-      nombre=[]
-      with open('../productos/productos.csv') as csvarchivo:
-        cpd_product  = csv.DictReader(csvarchivo)
-        for n in cpd_product:
-          if(n['codigo']!=''):
-            #self.tabla_top.setRowCount(i+1)
-            #self.tabla_top.setItem(i,0, QTableWidgetItem(n['nombre']))
-            #self.tabla_top.setItem(i,1, QTableWidgetItem(n['contador']))
-            nombre.append(n['nombre'])
-            masv.append(int(n['contador']))
-            #i=i+1
-      masv=self.quicksort(masv,0,len(masv)-1)
-      mas=self.mas10(masv)
-      print (mas)  
-      plt.pie(masv, labels=nombre, autopct='%1.1f%%')
-      plt.title("Top 10 más Vendidos", bbox={"facecolor":"0.8", "pad":5})
-      plt.legend()
-      plt.show()
+        f = open('../productos/productos.csv','rU')
+        products = pd.read_csv(f)
+        top="Top 10 más Vendidos"
+        p=products.sort_values(by=['contador'],ascending=[False]).head(10)
+        p=p.reset_index(drop=True)
+        nombre,masv=self.llenar_top(p)
+        plt.pie(masv, labels=nombre, autopct='%1.1f%%')
+        plt.title(top, bbox={"facecolor":"0.8", "pad":5})
+        plt.legend()
+        plt.show()
+    
+    def menos_vendidos(self):
+        f = open('../productos/productos.csv','rU')
+        products = pd.read_csv(f)
+        top="Top 10 menos Vendidos"
+        p=products.sort_values(by=['contador'],ascending=[True]).head(10)
+        p=p.reset_index(drop=True)
+        nombre,masv=self.llenar_top(p)
+        numbars = len(nombre)
+        plt.barh(range(numbars), masv, .75, align='center')
+        plt.xlabel(top)
+        plt.yticks(range(numbars), nombre)
+        plt.show()
 
-      
+
     #top 10 mas agotados
     def mas_agotados(self):
-      i=0
-      masv=[]
-      nombre=[]
-      with open('../productos/productos.csv') as csvarchivo:
-        cpd_product  = csv.DictReader(csvarchivo)
-        for n in cpd_product:
-          if(n['codigo']!=''):
-            self.tabla_agotados.setRowCount(i+1)
-            self.tabla_agotados.setItem(i,0, QTableWidgetItem(n['nombre']))
-            self.tabla_agotados.setItem(i,1, QTableWidgetItem(n['stock']))
-            nombre.append(n['nombre'])
-            masv.append(n['stock'])
-            i=i+1
-      plt.pie(masv, labels=nombre, autopct='%1.1f%%')
-      plt.title("Top 10 más Agotados", bbox={"facecolor":"0.8", "pad":5})
-      plt.legend()
-      plt.show()
+        f = open('../productos/productos.csv','rU')
+        products = pd.read_csv(f)
+        p=products.sort_values(by=['stock'],ascending=[True]).head(10)
+        p=p.reset_index(drop=True)
+        nombre=[]
+        masv=[]
+        i=0
+        while i<10:
+          self.tabla_agotados.setRowCount(i+1)
+          self.tabla_agotados.setItem(i,0, QTableWidgetItem(str(p['codigo'][i])))
+          self.tabla_agotados.setItem(i,1, QTableWidgetItem(p['nombre'][i]))
+          self.tabla_agotados.setItem(i,2, QTableWidgetItem(str(p['stock'][i])))
+          nombre.append(p['nombre'][i])
+          masv.append(p['stock'][i])
+          i=i+1
+        numbars = len(nombre)
+        plt.barh(range(numbars), masv, .75, align='center')
+        plt.xlabel('Top 10 Productos más Agotados')
+        plt.yticks(range(numbars), nombre)
+        plt.show()
     
     # conteo total de reportes
     def reportes_totales(self):

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1091</width>
-    <height>729</height>
+    <height>773</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -655,7 +655,7 @@
         <item row="2" column="2">
          <widget class="QGroupBox" name="groupBox_5">
           <property name="title">
-           <string>Top 10 Productos Más Vendidos</string>
+           <string>Top 10 Productos</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="1" column="0">
@@ -667,6 +667,11 @@
               <number>1</number>
              </property>
              <row/>
+             <column>
+              <property name="text">
+               <string>Código</string>
+              </property>
+             </column>
              <column>
               <property name="text">
                <string>Producto</string>
@@ -826,6 +831,11 @@
               <number>1</number>
              </property>
              <row/>
+             <column>
+              <property name="text">
+               <string>Código</string>
+              </property>
+             </column>
              <column>
               <property name="text">
                <string>Producto</string>

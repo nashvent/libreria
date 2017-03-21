@@ -1,0 +1,11 @@
+----------------------------------
+BOLETA
+----------------------------------
+#nombre_cliente,direccion,numeroDocumento,Fecha,total,nroTipoDoc,cant1,nombre1,precio1,importe1...
+#      0       ,     1   ,       2       ,  3  ,  4  ,     5    , 6   ,   7   ,   8   ,   9   
+
+-------------------------------
+FACTURA
+-------------------------------
+#nombre_cliente,direccion,numeroDocumento,Fecha,total,nroTipoDoc,IGV,cant1,nombre1,precio1,importe1
+#      0       ,     1   ,       2       ,  3  ,  4  ,     5    , 6 ,  7  ,   8   ,   9   ,  10

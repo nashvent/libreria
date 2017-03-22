@@ -80,7 +80,7 @@ class Pedido(QMainWindow):
         pos=pos1
         cantidad=self.cantidadPedido.value()
         if(pos==-1):
-            QMessageBox.question(self, "ALERTA", "Este codigo de producto no existe.", QMessageBox.Ok)
+            QMessageBox.warning(self, "ALERTA", "Este codigo de producto no existe.", QMessageBox.Ok)
             self.lineaCodigo.setText('')
             return
         else:

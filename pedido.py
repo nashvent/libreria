@@ -217,13 +217,5 @@ class Documento(QMainWindow):
         pedido.show()
         self.hide()
         
-app = QApplication(sys.argv)
-lista=Lista()
-pedido = Pedido(lista)
-documento=Documento(pedido)
 
-lista.pedido=pedido
-pedido.documento=documento
-pedido.show()
-app.exec_()
 

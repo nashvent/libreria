@@ -152,7 +152,7 @@
      </property>
      <property name="icon">
       <iconset>
-       <normaloff>admin/icons/admin.png</normaloff>admin/icons/admin.png</iconset>
+       <normaloff>icons/admin.png</normaloff>icons/admin.png</iconset>
      </property>
      <property name="iconSize">
       <size>

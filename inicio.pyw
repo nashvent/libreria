@@ -43,15 +43,13 @@ class inicio(QMainWindow):
         self.lb_vr.setText('               Ventas del Día: '+str(nv))
         self.lb_p.setText('               N° de Productos: '+str(cp))
 
-
 #Instancia para iniciar una aplicación
 app = QApplication(sys.argv)
 lista=Lista()
 pedido = Pedido(lista)
 documento=Documento(pedido)
-
 lista.pedido=pedido
-pedido.documento=documento
+
 #pedido.show()
 admin = Administrador()
 

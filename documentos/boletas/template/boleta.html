@@ -2,13 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Factura</title>
-    <link rel="stylesheet" href="lib/bootstrap.min.css">
-    <link rel="stylesheet" href="lib/factura.css">
-    <script>
-      <!--   window.print();-->
-    </script>
-        <script src="lib/jquery-3.2.0.min.js"></script>
+    <title>Boleta</title>
+    <link rel="stylesheet" href="../../lib/bootstrap.min.css">
+    <link rel="stylesheet" href="../../lib/factura.css">
+	<script src="../../lib/jquery-3.2.0.min.js"></script>
+
 	<script>
 	  
 function toArray(data) {
@@ -25,6 +23,7 @@ function toArray(data) {
     return datos;
 }
 
+
 function nuevoItem() {
     	var $div = $('tr[id^="item"]:last');
 	var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
@@ -35,6 +34,7 @@ function nuevoItem() {
     return num;
 }
 $(document).ready(function() {
+	console.log('asdsa');
 	var datosDoc=[]
     $.ajax({
 	url : "actual.txt",
@@ -47,14 +47,12 @@ $(document).ready(function() {
     	$("#direccion").append(datosDoc[1]);
     	$("#ruc").append(datosDoc[2]);
     	$("#fecha").append(datosDoc[3]);
-    	$("#subTotal").append(datosDoc[4]);
-    	$("#igv").append(datosDoc[6]);
-    	$("#total").append(parseFloat(datosDoc[6])+parseFloat(datosDoc[4]));
-    	for(i=0;i<18;i++){
+    	$("#total").append(datosDoc[4]);
+    	for(i=0;i<8;i++){
     		nuevoItem();
     	}
     	var numItem=1;
-    	for(i=7;i<datosDoc.length;i=i+4){
+    	for(i=6;i<datosDoc.length;i=i+4){
     		var numItemString=numItem.toString();
     		var idItem="#item"+numItemString+" ";
     		$( idItem+"#cantidadProducto").append(datosDoc[i+2]);
@@ -66,10 +64,34 @@ $(document).ready(function() {
 	}
     });
     
-	   
+	   $.ajax({
+	url : "datos.txt",
+	dataType: "text",
+	success : function (data) {
+		console.log('entre');
+	    $(".text").html(data);
+	    var nuevo=data;
+	    datosEmpresa=toArray(nuevo);
+  		$( "#nombreEmpresa").append(datosEmpresa[0]);
+  		$( "#rubroEmpresa").append(datosEmpresa[1]);
+  	    $( "#titularEmpresa").append(datosEmpresa[2]);
+  	    $( "#direccionEmpresa").append(datosEmpresa[3]);
+	 	$( "#rucPrincipal").append(datosEmpresa[4]);
+	}
+    });
+    $.ajax({
+	url : "nro_boleta.txt",
+	dataType: "text",
+	success : function (data) {
+		console.log('entre');
+	    $(".text").html(data);
+	    var nro='001 -  N°00000';
+	    var nuevo=data;
+		nro=nro+nuevo;
+		$( "#nroBoleta").append(nro);
+		}
+    });
 }); 
-	
-
 </script>
     
 
@@ -77,15 +99,15 @@ $(document).ready(function() {
   <body>
     <div id="capa3">
       <div id="logo">
-	<img src="doc/logo.jpg"  alt="">
+	<img src="logo.jpg"  alt="">
       </div>
 
       <div id="capa1" style="">
-	<h1 style="text-shadow: 0.12em 0.1em 0.1em  gray; text-transform: uppercase; font-size: 31px;"> Nombre de emrpesa S.A.C.</h1>
+	<h1 id="nombreEmpresa" style="text-shadow: 0.12em 0.1em 0.1em  gray; text-transform: uppercase; font-size: 31px;"> </h1>
 	
-	<p style="line-height:10px; font-size: 14px; font-weight: bold; line-height: 12px; margin-top: 0px; padding-bottom: 10px;">Computacion e informatica</p>
+	<p id="rubroEmpresa" style="line-height:10px; font-size: 14px; font-weight: bold; line-height: 12px; margin-top: 0px; padding-bottom: 10px;"></p>
 	
-	<h4 style="
+	<h4 id="titularEmpresa" style="
 		   line-height: 12px;
 		   font-size: 15px;
 		   font-weight: normal;
@@ -97,15 +119,15 @@ $(document).ready(function() {
 		   min-height: 20px;
 		   padding-top: 10px;
 		   margin-top: -10px;
-		   margin-bottom: 14px; padding-bottom: 10px;">Jose Pelaez Santos </h4>
-	<p style="font-weight: normal; margin-top: -10px; font-size: 13px padding-bottom; line-height: 12px;">av.Jesus mz-H lt-1 Paucarpie </p>
+		   margin-bottom: 14px; padding-bottom: 10px;"> </h4>
+	<p id="direccionEmpresa" style="font-weight: normal; margin-top: -10px; font-size: 13px padding-bottom; line-height: 12px;"> </p>
       </div>
 
       <div id="capa4">
-	<h2 style="letter-spacing: -1px;">R.U.C. 12354532</h2>
-	<h2 style="letter-spacing: 10px;">FACTURA</h2>
-	<h3 style='letter-spacing: 0.1em;font-size: 23px;font-family: "Courier New", Courier, monospace;'>001 -       N°000001</h3>
-	<br>
+	<h2 id="rucPrincipal" style="letter-spacing: -1px;"> </h2>
+	<h2 style="letter-spacing: 10px;">BOLETA</h2>
+	<h3 id="nroBoleta" style='letter-spacing: 0.1em;font-size: 23px;font-family: "Courier New", Courier, monospace;'></h3>
+<br>
       </div>
       
     </div>
@@ -121,7 +143,7 @@ $(document).ready(function() {
 	    </tr>
 	    <tr>
 	      <td class="col-md-7" id="ruc" style="width: 500px;">
-		R.U.C.
+		DNI:
 	      </td>
 	      <td id="fecha">
 		FECHA: 
@@ -152,23 +174,14 @@ $(document).ready(function() {
 	      <td id="totalProducto" width="116" class="der"></td>	
 	    </tr>
 	    <tr>
-	      <td colspan="2" class="gris" >Son:</td> 
-	      <td></td>
-	      <td></td>
-	    </tr>
-	    <tr>
-	      <td colspan="2" rowspan="3"  style="" ></td> 
+	      <td colspan="2" rowspan="3"  style="border-style: hidden; border-top-style: solid; border-right-style: solid;" ></td> 
 	      
-	      <td  class="gris">SUB TOTAL:</td>
-	      <td id="subTotal" width="116" class="der"></td>
 	    </tr>
 	    <tr>
-	      <td  class="gris" >IGV 8%:</td>	         
-	      <td id="igv" width="116" class="der"></td>
 	    </tr>
 	    <tr>
 	      
-	      <td  class="gris">TOTAL:</td>
+	      <td  class="gris" style="">TOTAL:</td>
 	      <td id="total" width="116" class="der"></td>
 	    </tr>
 	  </tbody>
@@ -178,8 +191,8 @@ $(document).ready(function() {
 
 
       </div>
-      <div id="info_adicional">
-    	<table class="table" style="text-align: center;">
+      <div id="info_adicional" style="margin-top: -45px; ">
+    	<table class="table" style="text-align: center; border-top: hidden;">
     	  <tr>
     	    <td style="font-size: 11px; margin-left: 60px;">
     	      <p>RUC 12312321123</p>

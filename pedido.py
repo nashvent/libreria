@@ -186,7 +186,7 @@ class Documento(QMainWindow):
         datos=datos+(',')
         datos=datos+(self.fechaDocumento.date().toString("dd/MM/yyyy"))
         datos=datos+(',')
-        datos=datos+(str(pedido.TotalPedido))
+        datos=datos+(str(self.pedido.TotalPedido))
         datos=datos+(',')
         if(self.documentoLabel.text()=='RUC:'):
             infile = open('documentos/facturas/template/nro_factura.txt', 'r')
@@ -223,7 +223,7 @@ class Documento(QMainWindow):
         pdfkit.from_file(htmlDoc,pdfDoc )
         os.startfile(pdf2Doc)
     def mostrarPedido(self):
-        pedido.show()
+        self.pedido.show()
         self.hide()
         
 

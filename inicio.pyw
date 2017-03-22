@@ -19,11 +19,11 @@ class inicio(QMainWindow):
     self.btn_pedido.clicked.connect(self.mostrarPedido)
     self.btn_admi.clicked.connect(self.mostrarAdmin)
   def mostrarPedido(self):
-    pedido.show()
+    self.pedido.show()
     self.hide() 
 
   def mostrarAdmin(self):
-    admin.show()
+    self.admin.show()
     self.hide() 
 
 
@@ -32,9 +32,8 @@ app = QApplication(sys.argv)
 lista=Lista()
 pedido = Pedido(lista)
 documento=Documento(pedido)
-
 lista.pedido=pedido
-pedido.documento=documento
+
 #pedido.show()
 admin = Administrador()
 

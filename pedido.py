@@ -6,8 +6,9 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QDate
 import csv, operator
 import time
-import webbrowser
-import shutil
+import pdfkit
+import os
+
 productos=[]
 with open('productos/productos.csv') as csvarchivo:
     entrada = csv.DictReader(csvarchivo)
@@ -151,24 +152,26 @@ class Documento(QMainWindow):
             self.documentoLabel.setText('RUC:')
             self.igvLabel.setText('S/.'+str(round(self.igv,9)))
             self.totalDocumento=self.totalDocumento+self.igv
-            self.totalCobro.setText('S/.'+str(self.totalDocumento))
+            self.totalCobro.setText('S/.'+str(round(self.totalDocumento,9)))
         else:
             self.documentoLabel.setText('DNI:')
             self.totalDocumento=self.totalDocumento-self.igv
             self.totalCobro.setText('S/.'+str(self.totalDocumento))
             self.igvLabel.setText('S/.0.0')
 
-    def generarDoc(self):
-    
+    def generarDoc(self):    
         #archi=open('datos.html','w')
         archivoActual=''
         archivoRegistro=''
         datos=''
+        htmlDoc=''
+        pdfDoc=''
+        pdf2Doc=''
         if(self.documentoLabel.text()=='RUC:'):
-            archivoActual='documentos/facturas/actual.txt'
+            archivoActual='documentos/facturas/template/actual.txt'
             archivoRegistro='documentos/facturas/'
         else:
-            archivoActual='documentos/boletas/actual.txt'
+            archivoActual='documentos/boletas/template/actual.txt'
             archivoRegistro='documentos/boletas/'
         archivoRegistro=archivoRegistro+self.fechaDocumento.date().toString("dd-MM-yyyy")+'-'+time.strftime('%H-%M-%S')+'.txt'
         registro=open(archivoRegistro,'w')
@@ -186,16 +189,22 @@ class Documento(QMainWindow):
         datos=datos+(str(pedido.TotalPedido))
         datos=datos+(',')
         if(self.documentoLabel.text()=='RUC:'):
-            infile = open('documentos/facturas/nro_factura.txt', 'r')
+            infile = open('documentos/facturas/template/nro_factura.txt', 'r')
             contadorFact=infile.read()
             datos=datos+(contadorFact)
             datos=datos+(',')
             datos=datos+(str(self.igv))
-    
+            htmlDoc='documentos/facturas/template/factura.html'
+            pdfDoc='documentos/facturas/template/factura.pdf'
+            pdf2Doc='documentos\\facturas\\template\\factura.pdf'
+            
         else:
-            infile = open('documentos/boletas/nro_boleta.txt', 'r')
+            infile = open('documentos/boletas/template/nro_boleta.txt', 'r')
             contadorBol=infile.read()
             datos=datos+(contadorBol)
+            htmlDoc='documentos/boletas/template/boleta.html'
+            pdfDoc='documentos/boletas/template/boleta.pdf'
+            pdf2Doc='documentos\\boletas\\template\\boleta.pdf'
             
         for i in range(self.tablaVenta.rowCount()):
             datos=datos+(',')
@@ -210,9 +219,9 @@ class Documento(QMainWindow):
         archi.write(datos)
         registro.write(datos)
         archi.close()
-        shutil.copy(archivoActual,archivoRegistro)
-        webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open("file:///C:/Users/Nash/Documents/NACHO FINAL/"+archivoActual)
-        
+        registro.close()
+        pdfkit.from_file(htmlDoc,pdfDoc )
+        os.startfile(pdf2Doc)
     def mostrarPedido(self):
         pedido.show()
         self.hide()

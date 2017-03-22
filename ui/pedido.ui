@@ -41,7 +41,7 @@
          </font>
         </property>
         <property name="text">
-         <string/>
+         <string>Pedido</string>
         </property>
        </widget>
       </item>

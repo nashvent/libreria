@@ -120,6 +120,7 @@ class Documento(QMainWindow):
     def __init__(self,pedido):
         QMainWindow.__init__(self)
         uic.loadUi("ui/documento.ui", self)
+        self.pedido=pedido
         #self.initUI()
         self.tipoDocumento.currentTextChanged.connect(self.itemChanged)
         #print (time.strftime("%I:%M:%S"))
@@ -127,7 +128,6 @@ class Documento(QMainWindow):
         self.fechaDocumento.setDate(QDate.currentDate())
         self.generarDocumento.clicked.connect(self.generarDoc)
         self.editarPedido.clicked.connect(self.mostrarPedido)
-        self.pedido=pedido
         self.igv=0
         self.totalDocumento=0
     def initUI(self):
@@ -226,13 +226,5 @@ class Documento(QMainWindow):
         pedido.show()
         self.hide()
         
-app = QApplication(sys.argv)
-lista=Lista()
-pedido = Pedido(lista)
-documento=Documento(pedido)
 
-lista.pedido=pedido
-pedido.documento=documento
-pedido.show()
-app.exec_()
 

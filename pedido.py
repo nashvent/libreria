@@ -62,6 +62,8 @@ class Pedido(QMainWindow):
         self.quitarProducto.clicked.connect(self.productoRemovido)
         self.cancelarPedido.clicked.connect(self.limpiarPedido)
         self.enviarPedido.clicked.connect(self.generarPedido)
+        self.lb_titulo.setStyleSheet("background: #98dc12")
+
     def mostrarLista(self):
         self.lista.show()
 

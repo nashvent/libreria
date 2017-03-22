@@ -13,3 +13,5 @@ fecha,hora,tipo,nombre,dni_ruc,direccion,total,ganancia,ubicacion
 /03/03/2017,12:45 A.M.,f,Empresa2,162345678,av1,20,6,../bla4
 /03/03/2017,12:45 A.M.,f,Empresa4,162345678,av1,20,6,../bla6
 /13/03/2017,12:45 A.M.,f,Empresa5,162345678,av1,100,30,../bla7
+/22/03/2017,08:45 A.M.,f,Empresa6,262345678,av1,230,60,../bla7
+/22/03/2017,04:00 P.M.,f,Empresa5,162345678,av1,60,15,../bla7

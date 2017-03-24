@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import sys
 import csv
 import os
@@ -13,7 +15,7 @@ import pandas as pd
 
 class Interfaz(object):
     def closeEvent(self, event):
-        resultado = QMessageBox.question(self, "Salir...", "¿Seguro que quiere salir del Administrador?", QMessageBox.Yes | QMessageBox.No)
+        resultado = QMessageBox.question(self, "Salir...", "Â¿Seguro que quiere salir del Administrador?", QMessageBox.Yes | QMessageBox.No)
         if resultado == QMessageBox.Yes: event.accept()
         else: event.ignore()
 
@@ -76,7 +78,7 @@ class Administrador(QMainWindow,Interfaz):
             'precio_compra':str(a_precio_compra),'precio_venta':str(a_precio_venta),
             'descripcion':a_descripcion,'ganancia':str(float(a_precio_venta)-float(a_precio_compra)),'contador':'0'});
         else:
-          QMessageBox.critical(self, "ALERTA", "Este código de producto ya está usado.", QMessageBox.Ok)
+          QMessageBox.critical(self, "ALERTA", "Este cÃ³digo de producto ya estÃ¡ usado.", QMessageBox.Ok)
           return
 
         toCSV = p2
@@ -138,12 +140,12 @@ class Administrador(QMainWindow,Interfaz):
                 dict_writer = csv.DictWriter(output_file, keys)
                 dict_writer.writeheader()
                 dict_writer.writerows(toCSV)
-            QMessageBox.question(self, "Editó el Producto "+cod, "Se guardo con Exito", QMessageBox.Ok)
+            QMessageBox.question(self, "EditÃ³ el Producto "+cod, "Se guardo con Exito", QMessageBox.Ok)
             self.limpiar()
             self.b_producto.setText(e_codigo)
             self.ver_productos()
           else:
-            QMessageBox.critical(self, "ALERTA", "Este código de producto ya esta usado.", QMessageBox.Ok)
+            QMessageBox.critical(self, "ALERTA", "Este cÃ³digo de producto ya esta usado.", QMessageBox.Ok)
         else:
             QMessageBox.critical(self, "ALERTA", "Datos del producto sin llenar", QMessageBox.Ok)
 
@@ -190,7 +192,7 @@ class Administrador(QMainWindow,Interfaz):
 
     def ver_productos(self):
         tipo_buscar=(self.b_codigo.currentText())
-        if (tipo_buscar=='Código'):
+        if (tipo_buscar=='CÃ³digo'):
           self.busqueda('codigo')
         else:
           self.busqueda('nombre')
@@ -228,15 +230,15 @@ class Administrador(QMainWindow,Interfaz):
     def compara_fechas(self,x,y):
         diax=x[1:3]
         mesx=x[4:-5]
-        añox=x[-4:]
+        aniox=x[-4:]
 
         diay=y[1:3]
         mesy=y[4:-5]
-        añoy=y[-4:]
+        anioy=y[-4:]
 
-        if añox<añoy:
+        if aniox<anioy:
           return True
-        elif añox==añoy:
+        elif aniox==anioy:
           if mesx<mesy:
             return True
           elif mesx==mesy:
@@ -332,7 +334,7 @@ class Administrador(QMainWindow,Interfaz):
       width = .75
       fechas=self.sacar_fecha(fechas)
       plt.barh(range(numbars), cantidad, width, align='center')
-      plt.xlabel('N° de Ventas')
+      plt.xlabel('NÂ° de Ventas')
       plt.yticks(range(numbars), fechas)
       plt.show()
 
@@ -416,7 +418,7 @@ class Administrador(QMainWindow,Interfaz):
     def mas_vendidos(self):
         f = open(self.productosCSV,'rU')
         products = pd.read_csv(f)
-        top="Top 10 más Vendidos"
+        top="Top 10 mÃ¡s Vendidos"
         p=products.sort_values(by=['contador'],ascending=[False]).head(10)
         p=p.reset_index(drop=True)
         nombre,masv=self.llenar_top(p)
@@ -458,7 +460,7 @@ class Administrador(QMainWindow,Interfaz):
           i=i+1
         numbars = len(nombre)
         plt.barh(range(numbars), masv, .75, align='center')
-        plt.xlabel('Top 10 Productos más Agotados')
+        plt.xlabel('Top 10 Productos mÃ¡s Agotados')
         plt.yticks(range(numbars), nombre)
         plt.show()
     

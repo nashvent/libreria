@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import uic
@@ -7,15 +9,13 @@ import pandas as pd
 import time
 
 class inicio(QMainWindow):
- #Método constructor de la clase
+ #MÃ©todo constructor de la clase
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
     def __init__(self,pedido,admin):
         self.pedido=pedido
         self.admin=admin
-    #Iniciar el objeto QMainWindow
         QMainWindow.__init__(self)
-    #Cargar la configuración del archivo .ui en el objeto
         uic.loadUi("ui/inicio.ui", self)
         self.reportes_totales()
         self.lb_p.setStyleSheet("background: #98dc12")
@@ -43,7 +43,7 @@ class inicio(QMainWindow):
         self.lb_vr.setText('               Ventas del Día: '+str(nv))
         self.lb_p.setText('               N° de Productos: '+str(cp))
 
-#Instancia para iniciar una aplicación
+#Instancia para iniciar una aplicaciÃ³n
 app = QApplication(sys.argv)
 lista=Lista()
 pedido = Pedido(lista)

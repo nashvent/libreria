@@ -3,7 +3,7 @@ from cx_Freeze import setup, Executable
 setup( name = "ventana",
            version = "0.1" ,
            description = "ventana" ,
-           executables = [Executable("pedido.pyw")] , )
+           executables = [Executable("inicio.pyw")] , )
 
 '''  1. Este archivo le he llamado ejecutable.py. Llámale como quieras
      2. Sustituye en Executable el nombre del archivo py o pyw  por el que quieres convertir a exe.

@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1083</width>
-    <height>670</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1083</width>
-    <height>670</height>
+    <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1083</width>
-    <height>670</height>
+    <height>700</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -48,7 +48,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="icon">
@@ -1271,13 +1271,6 @@
             <widget class="QLabel" name="label_43">
              <property name="text">
               <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_5">
-             <property name="text">
-              <string>Vista Previa</string>
              </property>
             </widget>
            </item>

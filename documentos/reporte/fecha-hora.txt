@@ -1,0 +1,2 @@
+fechahoy,fechainicio,fechafin,fechaventas,numventas,totalventas,totalganancia
+#    0   ,     1     ,  2     ,   3       ,    4    ,    5     ,    6

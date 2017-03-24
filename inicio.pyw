@@ -10,6 +10,15 @@ class inicio(QMainWindow):
  #Método constructor de la clase
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
+    def hideAdmin(self):
+        self.show()
+        self.admin.hide()
+        self.reportes_totales()
+    def hidePedido(self):
+        self.show()
+        self.pedido.hide()
+        self.reportes_totales()
+            
     def __init__(self,pedido,admin):
         self.pedido=pedido
         self.admin=admin
@@ -23,6 +32,8 @@ class inicio(QMainWindow):
         self.lb_titulo.setStyleSheet("background: #1298dc ; color: white")
         self.btn_pedido.clicked.connect(self.mostrarPedido)
         self.btn_admi.clicked.connect(self.mostrarAdmin)
+        self.admin.btn_atras.clicked.connect(self.hideAdmin)
+        self.pedido.btn_atras.clicked.connect(self.hidePedido)
     def mostrarPedido(self):
         pedido.show()
         self.hide() 

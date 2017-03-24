@@ -1,1 +1,1 @@
-Nombre de la empresa,rubro de la empresa, titular de la empresa, direccion de la empresa,R.U.C. 12312321321
+nachitos,libreria,vanessa,av papa,R.U.C. 12345678

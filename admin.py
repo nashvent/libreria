@@ -27,6 +27,7 @@ class Administrador(QMainWindow,Interfaz):
         QMainWindow.__init__(self)
         uic.loadUi("ui/admin.ui", self)
         self.reportes_totales()
+        self.lb_titulo.setStyleSheet("background: #FACC2E")
         self.btn_act.clicked.connect(self.reportes_totales)
         self.tipo_bolefac.currentTextChanged.connect(self.itemChanged)
         self.btn_agregar.clicked.connect(self.agregar_producto)

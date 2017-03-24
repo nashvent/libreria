@@ -490,4 +490,3 @@ class Administrador(QMainWindow,Interfaz):
           self.fichero_actual = nombre_fichero
           self.setWindowTitle(QFileInfo(nombre_fichero).fileName())
           self.ruta = QFileInfo(nombre_fichero).path()
-

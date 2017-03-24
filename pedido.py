@@ -8,6 +8,7 @@ import csv, operator
 import time
 import pdfkit
 import os
+import pandas as pd
 
 productos=[]
 with open('productos/productos.csv') as csvarchivo:
@@ -24,7 +25,6 @@ class Lista(QDialog):
         self.initUI()
     def initUI(self):
         self.tableWidget.doubleClicked.connect(self.on_click)
-        self.elegirProducto.clicked.connect(self.productoElegido)
         #self.tableWidget.setItem(0,0, QTableWidgetItem("Cell (1,1)"))
         i=0
         self.tableWidget.setRowCount(len(productos))
@@ -130,6 +130,7 @@ class Documento(QMainWindow):
         self.editarPedido.clicked.connect(self.mostrarPedido)
         self.igv=0
         self.totalDocumento=0
+        self.actualizarStock()
     def initUI(self):
         self.show()
 
@@ -225,6 +226,14 @@ class Documento(QMainWindow):
     def mostrarPedido(self):
         self.pedido.show()
         self.hide()
+    def actualizarStock(self):
+        print('paseeeeeee')
+        productosCSV = 'productos/productos.csv'
+        f = open(productosCSV,'rU')
+        products = pd.read_csv(f)
+        #p3=products[products.codigo==20]['codigo']
+        products[products.codigo==20].ix['codigo']=100
+        #products.ix[2,'codigo']=1000
+        print(products)
         
-
 

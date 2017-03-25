@@ -1,5 +1,5 @@
 codigo,nombre,stock,precio_compra,precio_venta,descripcion,ganancia,contador
-20,cartuchera,8,6.0,9.0,negra,3.0,4
+20,cartuchera,6,6.0,9.0,negra,3.0,6
 22,borrador,25,1.0,2.0,artesco,1.0,9
 24,goma,34,2.0,4.0,uhu,2.0,6
 26,carpeta,12,2.0,3.0,alpha,1.0,10

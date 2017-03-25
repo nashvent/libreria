@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Reporte</title>
+    <link rel="stylesheet" href="../lib/bootstrap.min.css">
+    <link rel="stylesheet" href="reporte.css">
+	<script src="../lib/jquery-3.2.0.min.js"></script>
+
+	<script>
+	  
+function toArray(data) {
+    var datos=[];
+    var pos=0;
+    for (i = 0; i<data.length; i++){
+	if(data[i]==',' || i+1==data.length){
+		if(i+1==data.length){
+			i=i+1
+		}	    
+	    datos.push(data.substring(pos,i));
+	    pos=i+1;
+	}	       
+	}
+    return datos;
+}
+
+
+function nuevoItem() {
+    var $div = $('tr[id^="item"]:last');
+	var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
+	var numS=num.toString();	
+	var numA=num-1;
+	numA=numA.toString();
+    $( "#item1" ).clone().attr('id','item'+numS).insertAfter( "#item"+numA);
+    return num;
+}
+$(document).ready(function() {
+	var datosDoc=[]
+    $.ajax({
+	url : "actual.txt",
+	dataType: "text",
+	success : function (data) {
+	    $(".text").html(data);
+	    var nuevo=data;
+	    datosDoc=toArray(nuevo);
+    	$("#fechaReporte").append(datosDoc[0]);
+    	$("#fechaV").append(datosDoc[1]+'-');
+    	$("#fechaV").append(datosDoc[2]);
+
+    	for(i=3;i<datosDoc.length-4;i=i+4){
+    		nuevoItem();
+    	}
+    	var numItem=1;
+    	for(i=3;i<datosDoc.length;i=i+4){
+    		var numItemString=numItem.toString();
+    		var idItem="#item"+numItemString+" ";
+    		$( idItem+"#fechaVenta").append(datosDoc[i]);
+    		$( idItem+"#numeroVenta").append(datosDoc[i+1]);
+    		$( idItem+"#totalVenta").append(datosDoc[i+2]);
+    		$( idItem+"#gananciaVenta").append(datosDoc[i+3]);
+    		numItem=numItem+1;
+    	}
+	}
+    });
+    
+	   $.ajax({
+	url : "datos.txt",
+	dataType: "text",
+	success : function (data) {
+		console.log('entre');
+	    $(".text").html(data);
+	    var nuevo=data;
+	    datosEmpresa=toArray(nuevo);
+  		$( "#nombreEmpresa").append(datosEmpresa[0]);
+  		$( "#ruc").append(datosEmpresa[1]);
+	}
+    });
+}); 
+</script>
+    
+
+  </head>
+  <body>
+    <div id="capa3">
+      	<div id="logo" style="margin-left: 20px;">
+			<img src="../logo.jpg"  alt="">
+    	</div>
+
+    <div id="capa1" style="">
+		<h1 id="nombreEmpresa" style="text-transform: uppercase; font-size: 31px;"></h1>
+		<h2 id="ruc"></h2>
+		<p id="fechaReporte" style="font-size: 20px; padding-bottom: 10px;"></p>
+    </div>
+
+    <div id="capa2">
+      	<div id="fechaV">Reporte </div>
+    </div>
+      
+    <div class="container" style="width: 100%; margin-top:60px;">
+	<table class="table table-bordered" style="font-size: 17px;">
+	  <thead>
+	    <tr>
+	      <th>FECHA</th>
+	      <th>N° DE VENTAS</th>
+	      <th>TOTAL DE VENTA</th>
+	      <th>GANANCIA DE VENTA</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr id="item1">
+	      <td id="fechaVenta" width="250" class="cent"></td> 
+	      <td id="numeroVenta" width="250" class="cent"></td>
+	      <td id="totalVenta" width="250" class="der"></td>
+	      <td id="gananciaVenta" width="250" class="der"></td>	
+	    </tr>
+	    
+	    <tr>
+	    </tr>
+	    <tr>
+	       <td style="border-style: hidden; border-right-style: solid;"></td>	
+	      <td  class="gris der">TOTAL:</td>
+	      <td id="total" width="250" class="der"></td>
+	      <td id="total" width="250" class="der"></td>
+	    </tr>
+	  </tbody>
+	</table>
+    </div>
+      
+  </body>
+</html>

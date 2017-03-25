@@ -1,0 +1,72 @@
+    #capa3{ 
+        margin-top: 22px;
+        left: 50px;
+
+    }
+    #capa1{ 
+     position:absolute; /*NOMBRE*/
+     text-align: right;
+     z-index:1;
+     left: 220px;
+     width: 650px;
+     top:-8px;
+     height:200px;
+     line-height:24px;
+    }
+
+    #capa2{/*IMAGEN DE FACTURA*/
+     position:absolute;
+     top:170px;
+     z-index:0;
+     width: 900px;
+     text-align: center;
+     font-size: 25px;
+     text-transform: uppercase;
+
+    }
+
+    #capa3 img{
+    width: 210px;
+    height: 160px;	
+    }
+
+    body {
+      position: relative;
+      width: 24cm;  
+      height: 29.7cm; 
+      margin: 0 auto; 
+      color: #001028;
+      background: #FFFFFF;
+      font: 90% monospace;
+      font-size: 1.5em;
+    }
+    hr{
+      visibility: hidden;
+    }
+
+.table-bordered tbody tr td{
+    border: 1px solid #080808;   
+}
+
+.table-bordered thead tr  {
+    border: 1px solid #080808;   
+}
+
+.table-bordered thead tr th  {
+    border: 1px solid #080808;
+    background-color: rgb(214, 214, 194);   
+    text-align: center;
+}
+
+.der{
+    text-align: right;
+}
+
+.cent{
+    text-align: center;
+}
+
+.gris{
+    background-color: rgb(214, 214, 194);
+}
+

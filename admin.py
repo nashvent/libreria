@@ -3,7 +3,7 @@
 import sys
 import csv
 import os
-from PyQt5.QtWidgets import QFileDialog,QMessageBox,QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
+from PyQt5.QtWidgets import QFileDialog,QFileDialog,QMessageBox,QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import QDate
@@ -12,6 +12,8 @@ from PyQt5 import QtGui, QtCore
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import pdfkit
+import time
 
 class Interfaz(object):
     def closeEvent(self, event):
@@ -48,6 +50,9 @@ class Administrador(QMainWindow,Interfaz):
         self.btn_mev.clicked.connect(self.menos_vendidos)
         self.btn_agotados.clicked.connect(self.mas_agotados)
         self.btn_abrir.clicked.connect(self.abrir)
+        self.btn_pdf.clicked.connect(self.generarDoc)
+        self.btn_ver.clicked.connect(self.ver)
+        self.btn_guardarc.clicked.connect(self.configuracion)
 
     @pyqtSlot()
     def on_click(self):
@@ -336,6 +341,7 @@ class Administrador(QMainWindow,Interfaz):
       plt.barh(range(numbars), cantidad, width, align='center')
       plt.xlabel('NÂ° de Ventas')
       plt.yticks(range(numbars), fechas)
+      plt.grid()
       plt.show()
 
     def graficar2(self,fechas,cantidad,ganan):
@@ -346,6 +352,7 @@ class Administrador(QMainWindow,Interfaz):
       plt.barh(range(numbars), ganan, width, align='center')
       plt.xlabel('Azul: Total de Venta         Naranja: Total de Ganancia')
       plt.yticks(range(numbars), fechas)
+      plt.grid()
       plt.show()
 
     def numero_veces(self,fecha):
@@ -360,15 +367,10 @@ class Administrador(QMainWindow,Interfaz):
             cant=cant+float(n['total'])
             gan=gan+float(n['ganancia'])
       return cont,cant,gan
-
-    def facturas_por_dia(self,tip=False):
+    def ver(self):
         i=0
-        fechas=[]
-        cantidad=[]
-        tventas=[]
-        tganan=[]
-        nuevo=True
         temp_fecha=''
+        nuevo=True
         fecha_ini='/'+self.fi_fecha.date().toString('dd/MM/yyyy')
         fecha_fin='/'+self.ff_fecha.date().toString('dd/MM/yyyy')
         if (self.compara_fechas(fecha_ini,fecha_fin)):
@@ -380,24 +382,38 @@ class Administrador(QMainWindow,Interfaz):
                   temp_fecha=r['fecha']
                   self.tabla_ventas_dia.setRowCount(i+1)
                   self.tabla_ventas_dia.setItem(i,0, QTableWidgetItem(r['fecha']))
-                  fechas.append(temp_fecha)
                   cont,cant,gan=self.numero_veces(r['fecha'])
-                  cantidad.append(cont)
                   self.tabla_ventas_dia.setItem(i,1, QTableWidgetItem(str(cont)))
                   self.tabla_ventas_dia.setItem(i,2, QTableWidgetItem('S/. '+str(cant)))
                   self.tabla_ventas_dia.setItem(i,3, QTableWidgetItem('S/. '+str(gan)))
                   i=i+1
                   nuevo=False
-                  if(tip):
-                    tventas.append(cant)
-                    tganan.append(gan)
-          if(tip):
-            self.graficar2(fechas,tventas,tganan)
-          else:
-            self.graficar(fechas,cantidad)
         else:
-          QMessageBox.critical(self, "ALERTA", "Ingrese correctamente la fecha", QMessageBox.Ok)
+          QMessageBox.critical(self, "ALERTA", "Ingrese correctamente la fecha", QMessageBox.Ok)   	
 
+    def facturas_por_dia(self,tip=False):
+        i=0
+        fechas=[]
+        cantidad=[]
+        tventas=[]
+        tganan=[]
+        tam= self.tabla_ventas_dia.rowCount()
+        while i<tam:
+        	if(tip):
+        		tv=self.tabla_ventas_dia.item(i,2).text()
+        		tg=self.tabla_ventas_dia.item(i,3).text()
+        		tventas.append(float(tv[4:]))
+        		tganan.append(float(tg[4:]))
+	        fv=self.tabla_ventas_dia.item(i,0).text()
+	        cv=self.tabla_ventas_dia.item(i,1).text()
+	        fechas.append(fv)
+	        cantidad.append(float(cv))
+	        i=i+1
+        if(tip):
+        	self.graficar2(fechas,tventas,tganan)
+        else:
+        	self.graficar(fechas,cantidad)
+        
     def venta_vs_ganan(self):
       self.facturas_por_dia(True)
 
@@ -473,9 +489,10 @@ class Administrador(QMainWindow,Interfaz):
       with open(self.boletasFacturas) as csvarchivo:
         cpd_product  = csv.DictReader(csvarchivo)
         for r in cpd_product:
-          nv=nv+1
-          tv=tv+float(r['total'])
-          tg=tg+float(r['ganancia'])
+        	if(r['fecha']!=''):
+          		nv=nv+1
+          		tv=tv+float(r['total'])
+          		tg=tg+float(r['ganancia'])
 
       with open(self.productosCSV) as csvarchivo:
         cpd_product  = csv.DictReader(csvarchivo)
@@ -487,9 +504,63 @@ class Administrador(QMainWindow,Interfaz):
       self.total_g.setText('S/. '+str(tg))
       self.n_product.setText(str(cp))
 
+
+    #abrir logo
     def abrir(self):
-        nombre_fichero = QFileDialog.getOpenFileName(self, "Abrir Logo", self.ruta)
-        if nombre_fichero:
-          self.fichero_actual = nombre_fichero
-          self.setWindowTitle(QFileInfo(nombre_fichero).fileName())
-          self.ruta = QFileInfo(nombre_fichero).path()
+        filename = QFileDialog.getOpenFileName(self, 'Open file','/home')
+        
+        #Se define la imagen en la etiqueta
+        #pixmap = QPixmap("%s" %self.filename)
+        #self.logito.setPixmap(pixmap)
+
+    def generarDoc(self):    
+        #archi=open('datos.html','w')
+
+        archivoActual='documentos/reporte/actual.txt'
+        #archivoRegistro=archivoRegistro+self.fechaDocumento.date().toString("dd-MM-yyyy")+'-'+time.strftime('%H-%M-%S')+'.txt
+        datos=''
+        #print(archivoRegistro)
+        archi=open(archivoActual,'w')
+        datos=datos+(time.strftime("%d/%m/%Y"))
+        datos=datos+(',')
+        datos=datos+(self.fi_fecha.date().toString('dd/MM/yyyy'))
+        datos=datos+(',')
+        datos=datos+(self.ff_fecha.date().toString('dd/MM/yyyy'))
+      
+        htmlDoc='documentos/reporte/reporte.html'
+        pdfDoc='documentos/reporte/reporte.pdf'
+        pdf2Doc='documentos\\reporte\\reporte.pdf'
+           
+        for i in range(self.tabla_ventas_dia.rowCount()):
+            datos=datos+(',')
+            datos=datos+(self.tabla_ventas_dia.item(i,0).text()[1:])
+            datos=datos+(',')
+            datos=datos+(self.tabla_ventas_dia.item(i,1).text())
+            datos=datos+(',')
+            datos=datos+(self.tabla_ventas_dia.item(i,2).text())
+            datos=datos+(',')
+            datos=datos+(self.tabla_ventas_dia.item(i,3).text())
+
+        archi.write(datos)
+        archi.close()
+        pdfkit.from_file(htmlDoc,pdfDoc)
+        os.startfile(pdf2Doc)
+
+    def configuracion(self):
+    	datos=self.nombre_empresa.text()+','+self.rubro.text()+','+self.nombre_titular.text()+','+self.direccion.text()
+    	datos+=',R.U.C. '
+    	datos+=self.ruc.text()
+    	datosr=self.nombre_empresa.text()+',R.U.C. '+self.ruc.text()
+    	archivoActual='documentos/boletas/template/datos.txt'
+    	archivoActual2='documentos/boletas/template/datos.txt'
+    	archivoActual3='documentos/reporte/datos.txt'
+    	archi=open(archivoActual,'w')
+    	archi.write(datos)
+    	archi.close()
+    	archi1=open(archivoActual2,'w')
+    	archi1.write(datos)
+    	archi1.close()
+    	archi2=open(archivoActual3,'w')
+    	archi2.write(datosr)
+    	archi2.close()
+

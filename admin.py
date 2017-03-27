@@ -3,7 +3,7 @@
 import sys
 import csv
 import os
-from PyQt5.QtWidgets import QFileDialog,QFileDialog,QMessageBox,QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
+from PyQt5.QtWidgets import  QWidget, QFileDialog,QFileDialog,QMessageBox,QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import QDate
@@ -15,6 +15,32 @@ import pandas as pd
 import pdfkit
 import time
 
+class Login(QDialog): 
+    def __init__(self):
+        print('Login Construido')
+        #super().__init__()
+        QDialog.__init__(self)
+        uic.loadUi("ui/login.ui", self)
+        self.show()
+        self.botonLogin.clicked.connect(self.verificar)
+        
+    def verificar(self):
+        archivo = open("security/ident.txt", "r") 
+        linea = archivo.readline()
+        user=''
+        password=''
+        for i in range(len(linea)):
+            if(linea[i]==':'):
+                password=linea[i+1:]
+                user=linea[:i]
+        userI=self.lineUsuario.text()
+        passwordI=self.linePassword.text()
+        if(user=userI):
+            print ('usuario correcto')
+        print('usuario:',user)
+        print('password:',password)
+        print('usuarioI:',userI)
+        print('passwordI:',passwordI)
 class Interfaz(object):
     def closeEvent(self, event):
         resultado = QMessageBox.question(self, "Salir...", "¿Seguro que quiere salir del Administrador?", QMessageBox.Yes | QMessageBox.No)
@@ -569,4 +595,5 @@ class Administrador(QMainWindow,Interfaz):
     	archi2=open(archivoActual3,'w')
     	archi2.write(datosr)
     	archi2.close()
+
 

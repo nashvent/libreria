@@ -61,8 +61,9 @@ lista=Lista()
 pedido = Pedido(lista)
 documento=Documento(pedido)
 
-#pedido.show()
 admin = Administrador()
+login=Login()
+
 
 _ventana = inicio(pedido,admin)
 _ventana.show()

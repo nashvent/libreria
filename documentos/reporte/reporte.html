@@ -46,12 +46,14 @@ $(document).ready(function() {
     	$("#fechaReporte").append(datosDoc[0]);
     	$("#fechaV").append(datosDoc[1]+'-');
     	$("#fechaV").append(datosDoc[2]);
-
-    	for(i=3;i<datosDoc.length-4;i=i+4){
+    	$("#nventas").append(datosDoc[3]);
+    	$("#totalv").append(datosDoc[4]);
+    	$("#totalg").append(datosDoc[5]);
+    	for(i=6;i<datosDoc.length-4;i=i+4){
     		nuevoItem();
     	}
     	var numItem=1;
-    	for(i=3;i<datosDoc.length;i=i+4){
+    	for(i=6;i<datosDoc.length;i=i+4){
     		var numItemString=numItem.toString();
     		var idItem="#item"+numItemString+" ";
     		$( idItem+"#fechaVenta").append(datosDoc[i]);
@@ -117,10 +119,11 @@ $(document).ready(function() {
 	    <tr>
 	    </tr>
 	    <tr>
-	       <td style="border-style: hidden; border-right-style: solid;"></td>	
 	      <td  class="gris der">TOTAL:</td>
-	      <td id="total" width="250" class="der"></td>
-	      <td id="total" width="250" class="der"></td>
+	      <td id="nventas" width="250" class="cent"></td>
+	      <td id="totalv" width="250" class="der"></td>
+	      <td id="totalg" width="250" class="der"></td>
+
 	    </tr>
 	  </tbody>
 	</table>

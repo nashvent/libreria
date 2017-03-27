@@ -30,9 +30,9 @@ class Administrador(QMainWindow,Interfaz):
     def __init__(self):
         QMainWindow.__init__(self)
         uic.loadUi("ui/admin.ui", self)
-        self.reportes_totales()
+        #self.reportes_totales()
         self.lb_titulo.setStyleSheet("background: #FACC2E")
-        self.btn_act.clicked.connect(self.reportes_totales)
+        #self.btn_act.clicked.connect(self.reportes_totales)
         self.tipo_bolefac.currentTextChanged.connect(self.itemChanged)
         self.btn_agregar.clicked.connect(self.agregar_producto)
         self.btn_buscar.clicked.connect(self.ver_productos)
@@ -53,6 +53,7 @@ class Administrador(QMainWindow,Interfaz):
         self.btn_pdf.clicked.connect(self.generarDoc)
         self.btn_ver.clicked.connect(self.ver)
         self.btn_guardarc.clicked.connect(self.configuracion)
+        self.btn_excel.clicked.connect(self.generarExcel)
 
     @pyqtSlot()
     def on_click(self):
@@ -343,7 +344,7 @@ class Administrador(QMainWindow,Interfaz):
       plt.yticks(range(numbars), fechas)
       plt.grid()
       plt.show()
-
+    
     def graficar2(self,fechas,cantidad,ganan):
       numbars = len(fechas)
       width = .75
@@ -373,25 +374,52 @@ class Administrador(QMainWindow,Interfaz):
         nuevo=True
         fecha_ini='/'+self.fi_fecha.date().toString('dd/MM/yyyy')
         fecha_fin='/'+self.ff_fecha.date().toString('dd/MM/yyyy')
+        nv=0
+        tv=0
+        tg=0        
         self.tabla_ventas_dia.setRowCount(i)
-        if (self.compara_fechas(fecha_ini,fecha_fin)):
-          with open(self.boletasFacturas) as csvarchivo:
-            cpd_product  = csv.DictReader(csvarchivo)
-            for r in cpd_product:
-              if( self.compara_fechas(fecha_ini,r['fecha']) and self.compara_fechas(r['fecha'],fecha_fin)):
-                if (nuevo or (temp_fecha!=r['fecha'] and temp_fecha!='')):
-                  temp_fecha=r['fecha']
-                  self.tabla_ventas_dia.setRowCount(i+1)
-                  self.tabla_ventas_dia.setItem(i,0, QTableWidgetItem(r['fecha']))
-                  cont,cant,gan=self.numero_veces(r['fecha'])
-                  self.tabla_ventas_dia.setItem(i,1, QTableWidgetItem(str(cont)))
-                  self.tabla_ventas_dia.setItem(i,2, QTableWidgetItem('S/. '+str(cant)))
-                  self.tabla_ventas_dia.setItem(i,3, QTableWidgetItem('S/. '+str(gan)))
-                  i=i+1
-                  nuevo=False
+        if(self.compara_fechas(fecha_ini,fecha_fin)):
+            with open(self.boletasFacturas) as csvarchivo:
+                cpd_product  = csv.DictReader(csvarchivo)
+                for r in cpd_product:
+                    if( self.compara_fechas(fecha_ini,r['fecha']) and self.compara_fechas(r['fecha'],fecha_fin)):
+                        if (nuevo or (temp_fecha!=r['fecha'] and temp_fecha!='')):
+                            temp_fecha=r['fecha']
+                            self.tabla_ventas_dia.setRowCount(i+1)
+                            self.tabla_ventas_dia.setItem(i,0, QTableWidgetItem(r['fecha']))
+                            cont,cant,gan=self.numero_veces(r['fecha'])
+                            nv+=cont
+                            tv+=cant
+                            tg+=gan
+                            self.tabla_ventas_dia.setItem(i,1, QTableWidgetItem(str(cont)))
+                            self.tabla_ventas_dia.setItem(i,2, QTableWidgetItem('S/. '+str(cant)))
+                            self.tabla_ventas_dia.setItem(i,3, QTableWidgetItem('S/. '+str(gan)))
+                            i=i+1
+                            nuevo=False
+            self.n_ventas.setText(str(nv))
+            self.total_v.setText('S/. '+str(round(tv,9)))
+            self.total_g.setText('S/. '+str(round(tg,9)))
         else:
-          QMessageBox.critical(self, "ALERTA", "Ingrese correctamente la fecha", QMessageBox.Ok)   	
-
+            QMessageBox.critical(self, "ALERTA", "Ingrese correctamente la fecha", QMessageBox.Ok)   	
+    def generarExcel(self):
+    	if self.tabla_ventas_dia.rowCount()!=0:
+    		exc='productos\\reporte.csv'
+	    	repo=[]
+	    	for i in range(self.tabla_ventas_dia.rowCount()):
+	    		tf=self.tabla_ventas_dia.item(i,0).text()[1:]
+	    		tnv=self.tabla_ventas_dia.item(i,1).text()
+	    		ttv=self.tabla_ventas_dia.item(i,2).text()[4:]
+	    		ttg=self.tabla_ventas_dia.item(i,3).text()[4:]
+	    		repo.append({'fecha':tf, 'n_ventas':tnv,'total_venta':ttv,'total_ganancia':ttg})    
+	    	toCSV = repo
+	    	keys = toCSV[0].keys()
+	    	with open('productos/reporte.csv', 'w') as output_file:
+	    		dict_writer = csv.DictWriter(output_file, keys)
+	    		dict_writer.writeheader()
+	    		dict_writer.writerows(toCSV)
+	    	os.startfile(exc)
+    	else:
+	    	QMessageBox.critical(self, "ALERTA", "No hay datos para hacer el Reporte", QMessageBox.Ok)    	    	
     def facturas_por_dia(self,tip=False):
         i=0
         fechas=[]
@@ -505,11 +533,7 @@ class Administrador(QMainWindow,Interfaz):
         for n in cpd_product:
           if(n['codigo']!=''):
             cp=cp+1
-      self.n_ventas.setText(str(nv))
-      self.total_v.setText('S/. '+str(round(tv,9)))
-      self.total_g.setText('S/. '+str(round(tg,9)))
-      self.n_product.setText(str(cp))
-
+      
 
     #abrir logo
     def abrir(self):
@@ -521,36 +545,40 @@ class Administrador(QMainWindow,Interfaz):
 
     def generarDoc(self):    
         #archi=open('datos.html','w')
+        if self.tabla_ventas_dia.rowCount()!=0:
+          archivoActual='documentos/reporte/actual.txt'
+          datos=''
+          archi=open(archivoActual,'w')
+          datos=datos+(time.strftime("%d/%m/%Y"))
+          datos=datos+(',')
+          datos=datos+(self.fi_fecha.date().toString('dd/MM/yyyy'))
+          datos=datos+(',')
+          datos=datos+(self.ff_fecha.date().toString('dd/MM/yyyy'))
+          datos=datos+(',')
+          datos=datos+(self.n_ventas.text())
+          datos=datos+(',')
+          datos=datos+(self.total_v.text())
+          datos=datos+(',')
+          datos=datos+(self.total_g.text())
 
-        archivoActual='documentos/reporte/actual.txt'
-        #archivoRegistro=archivoRegistro+self.fechaDocumento.date().toString("dd-MM-yyyy")+'-'+time.strftime('%H-%M-%S')+'.txt
-        datos=''
-        #print(archivoRegistro)
-        archi=open(archivoActual,'w')
-        datos=datos+(time.strftime("%d/%m/%Y"))
-        datos=datos+(',')
-        datos=datos+(self.fi_fecha.date().toString('dd/MM/yyyy'))
-        datos=datos+(',')
-        datos=datos+(self.ff_fecha.date().toString('dd/MM/yyyy'))
-      
-        htmlDoc='documentos/reporte/reporte.html'
-        pdfDoc='documentos/reporte/reporte.pdf'
-        pdf2Doc='documentos\\reporte\\reporte.pdf'
-           
-        for i in range(self.tabla_ventas_dia.rowCount()):
-            datos=datos+(',')
-            datos=datos+(self.tabla_ventas_dia.item(i,0).text()[1:])
-            datos=datos+(',')
-            datos=datos+(self.tabla_ventas_dia.item(i,1).text())
-            datos=datos+(',')
-            datos=datos+(self.tabla_ventas_dia.item(i,2).text())
-            datos=datos+(',')
-            datos=datos+(self.tabla_ventas_dia.item(i,3).text())
-
-        archi.write(datos)
-        archi.close()
-        pdfkit.from_file(htmlDoc,pdfDoc)
-        os.startfile(pdf2Doc)
+          htmlDoc='documentos/reporte/reporte.html'
+          pdfDoc='documentos/reporte/reporte.pdf'
+          pdf2Doc='documentos\\reporte\\reporte.pdf'
+          for i in range(self.tabla_ventas_dia.rowCount()):
+	            datos=datos+(',')
+	            datos=datos+(self.tabla_ventas_dia.item(i,0).text()[1:])
+	            datos=datos+(',')
+	            datos=datos+(self.tabla_ventas_dia.item(i,1).text())
+	            datos=datos+(',')
+	            datos=datos+(self.tabla_ventas_dia.item(i,2).text())
+	            datos=datos+(',')
+	            datos=datos+(self.tabla_ventas_dia.item(i,3).text())
+          archi.write(datos)
+          archi.close()
+          pdfkit.from_file(htmlDoc,pdfDoc)
+          os.startfile(pdf2Doc)
+        else:
+          QMessageBox.critical(self, "ALERTA", "No hay datos para hacer el Reporte", QMessageBox.Ok)	
 
     def configuracion(self):
     	datos=self.nombre_empresa.text()+','+self.rubro.text()+','+self.nombre_titular.text()+','+self.direccion.text()

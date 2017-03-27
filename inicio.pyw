@@ -31,16 +31,20 @@ class inicio(QMainWindow):
         self.lb_vr.setStyleSheet("background: #FACC2E")
         self.lb_titulo.setStyleSheet("background: #1298dc ; color: white")
         self.btn_pedido.clicked.connect(self.mostrarPedido)
-        self.btn_admi.clicked.connect(self.mostrarAdmin)
+        self.btn_admi.clicked.connect(self.loginAdmin)
         self.admin.btn_atras.clicked.connect(self.hideAdmin)
         self.pedido.btn_atras.clicked.connect(self.hidePedido)
+        self.admin.login.loginAceptado=self.mostrarAdmin
     def mostrarPedido(self):
         lista.productos=actualizarListaProductos()
         pedido.show()
         self.hide() 
 
+    def loginAdmin(self):
+        admin.login.show()
+        
     def mostrarAdmin(self):
-        admin.show()
+        self.admin.show()
         self.hide() 
 
     def reportes_totales(self):
@@ -61,8 +65,8 @@ lista=Lista()
 pedido = Pedido(lista)
 documento=Documento(pedido)
 
-admin = Administrador()
 login=Login()
+admin = Administrador(login)
 
 
 _ventana = inicio(pedido,admin)

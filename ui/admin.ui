@@ -870,9 +870,8 @@
             <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
            </property>
            <property name="rowCount">
-            <number>1</number>
+            <number>0</number>
            </property>
-           <row/>
            <column>
             <property name="text">
              <string>Fecha</string>
@@ -896,6 +895,47 @@
           </widget>
          </item>
          <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <property name="topMargin">
+            <number>8</number>
+           </property>
+           <property name="bottomMargin">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_21">
+             <property name="text">
+              <string>TOTAL:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="n_ventas">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="total_v">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="total_g">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
           <layout class="QGridLayout" name="gridLayout_9">
            <item row="0" column="0">
             <widget class="QPushButton" name="btn_pdf">
@@ -909,7 +949,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="btn_excel">
              <property name="text">
               <string>Ver Excel</string>
              </property>
@@ -923,89 +963,6 @@
          </item>
         </layout>
        </widget>
-      </item>
-      <item row="0" column="1" colspan="3">
-       <layout class="QHBoxLayout" name="horizontalLayout_7">
-        <property name="topMargin">
-         <number>8</number>
-        </property>
-        <property name="bottomMargin">
-         <number>8</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="label_21">
-          <property name="text">
-           <string>Todas las Ventas:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="n_ventas">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_27">
-          <property name="text">
-           <string>Total de Ventas:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="total_v">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_29">
-          <property name="text">
-           <string>Total de Ganancias:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="total_g">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_32">
-          <property name="text">
-           <string>N° de Productos:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="n_product">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn_act">
-          <property name="text">
-           <string>Actualizar</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>icons/actual.png</normaloff>icons/actual.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
       </item>
      </layout>
     </widget>

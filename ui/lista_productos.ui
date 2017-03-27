@@ -74,10 +74,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="listaProducto"/>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="tipoBusca">
         <property name="font">
          <font>
           <pointsize>10</pointsize>
@@ -96,7 +96,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btn_buscar">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -129,12 +129,12 @@
       </column>
       <column>
        <property name="text">
-        <string>Stock</string>
+        <string>Precio</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Precio</string>
+        <string>Stock</string>
        </property>
       </column>
      </widget>

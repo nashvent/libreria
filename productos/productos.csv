@@ -1,20 +1,39 @@
-codigo,nombre,stock,precio_compra,precio_venta,descripcion,ganancia,contador
-20,cartuchera,3,6.0,9.0,negra,3.0,9
-22,borrador,25,1.0,2.0,artesco,1.0,9
-24,goma,30,2.0,4.0,uhu,2.0,10
-26,carpeta,11,2.0,3.0,alpha,1.0,11
-23,file,109,5.0,7.0,amarllos,2.0,8
-25,lapicero,30,0.8,1.5,pilot,0.7,2
-27,regla,19,1.0,3.5,alpha,2.5,7
-28,cinta,13,3.0,4.0,transparente,1.0,13
-29,hojas bond,38,10.0,12.0,millar A4,2.0,13
-30,cuaderno,49,4.0,6.5,standford,2.5,7
-31,agenda,38,6.0,10.0,standford,4.0,16
-32,corrector,22,1.5,3.0,stabilo,1.5,5
-33,regla de 30 cm,19,2.5,5.0,metal,2.5,3
-34,cartulina,24,1.0,3.0,canson,2.0,3
-129,chashi,10,20.0,50.0,producto valido,30.0,0
-400,pollada,20,10.0,12.0,fresca y frita,2.0,0
-402,guantes,10,20.0,40.0,guantes de cuero como el dueño,20.0,0
-382,almohada,29,29.0,59.0,de plumas,30.0,0
-178,jajajaj,28,10.0,20.0,jiji,10.0,1
+codigo,nombre,stock,precio_compra,precio_venta,descripcion,ganancia,contador
+
+20,cartuchera,10,6.0,9.0,negra,3.0,12
+
+22,borrador,25,1.0,2.0,artesco,1.0,9
+
+24,goma,34,2.0,4.0,uhu,2.0,6
+
+26,carpeta,11,2.0,3.0,alpha,1.0,11
+
+23,file,109,5.0,7.0,amarllos,2.0,8
+
+25,lapicero,30,0.8,1.5,pilot,0.7,2
+
+27,regla,19,1.0,3.5,alpha,2.5,7
+
+28,cinta,13,3.0,4.0,transparente,1.0,13
+
+29,hojas bond,38,10.0,12.0,millar A4,2.0,13
+
+30,cuaderno,49,4.0,6.5,standford,2.5,7
+
+31,agenda,38,6.0,10.0,standford,4.0,16
+
+32,corrector,22,1.5,3.0,stabilo,1.5,5
+
+33,regla de 30 cm,19,2.5,5.0,metal,2.5,3
+
+34,cartulina,24,1.0,3.0,canson,2.0,3
+
+129,chashi,10,20.0,50.0,producto valido,30.0,0
+
+400,pollada,20,10.0,12.0,fresca y frita,2.0,0
+
+402,guantes,10,20.0,40.0,guantes de cuero como el dueño,20.0,0
+
+382,almohada,29,29.0,59.0,de plumas,30.0,0
+
+178,jajajaj,28,10.0,20.0,jiji,10.0,1

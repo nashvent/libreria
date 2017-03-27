@@ -11,9 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Lista de Productos</string>
   </property>
-  <widget class="QLabel" name="label">
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/check.png</normaloff>icons/check.png</iconset>
+  </property>
+  <widget class="QLabel" name="listaTitulo">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -49,7 +53,7 @@
     </font>
    </property>
    <property name="title">
-    <string>Buscar producto:</string>
+    <string>Buscar Producto:</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>

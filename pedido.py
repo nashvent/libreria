@@ -21,17 +21,14 @@ from funciones import *
 class Lista(QDialog): 
     productos=actualizarListaProductos()##LISTA A ACUTALIZAR
     def __init__(self):
-<<<<<<< HEAD
-        self.listaTitulo.setStyleSheet("background: #98dc12")
         pedido=Pedido(self)
-=======
         print('Lista construida')
->>>>>>> 1b0b76cbedf7df95fb757c29e844dd0fbb62453a
         QDialog.__init__(self)
         uic.loadUi("ui/lista_productos.ui", self)
         self.tableWidget.doubleClicked.connect(self.on_click)
         #self.tableWidget.setItem(0,0, QTableWidgetItem("Cell (1,1)"))
         self.actualizarLista()
+        self.listaTitulo.setStyleSheet("background: #89f9ad")
     
     def productoElegido(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():

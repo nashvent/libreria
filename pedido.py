@@ -170,8 +170,6 @@ class Documento(QMainWindow):
                 self.tablaVenta.setItem(i,j,QTableWidgetItem(lista.item(i,j).text()))
         self.igv=self.pedido.TotalPedido*0.18
         self.totalDocumento=self.pedido.TotalPedido
-        if(self.tipoDocumento.currentText()=='Factura'):
-            self.totalDocumento=self.totalDocumento+self.igv
         self.totalCobro.setText('S/.'+str(self.totalDocumento))
         self.show()
 
@@ -180,12 +178,8 @@ class Documento(QMainWindow):
         if(self.tipoDocumento.currentText()=='Factura'):
             self.documentoLabel.setText('RUC:')
             self.igvLabel.setText('S/.'+str(round(self.igv,9)))
-            self.totalDocumento=self.totalDocumento+self.igv
-            self.totalCobro.setText('S/.'+str(round(self.totalDocumento,9)))
         else:
             self.documentoLabel.setText('DNI:')
-            self.totalDocumento=self.totalDocumento-self.igv
-            self.totalCobro.setText('S/.'+str(self.totalDocumento))
             self.igvLabel.setText('S/.0.0')
 
     def generarDoc(self):    

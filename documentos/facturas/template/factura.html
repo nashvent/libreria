@@ -46,9 +46,9 @@ $(document).ready(function() {
     	$("#direccion").append(datosDoc[1]);
     	$("#ruc").append(datosDoc[2]);
     	$("#fecha").append(datosDoc[3]);
-    	$("#subTotal").append(datosDoc[4]);
+    	$("#subTotal").append((parseFloat(datosDoc[4])-parseFloat(datosDoc[6])).toFixed(3));
     	$("#igv").append(datosDoc[6]);
-    	$("#total").append(parseFloat(datosDoc[6])+parseFloat(datosDoc[4]));
+    	$("#total").append(parseFloat(datosDoc[4]));
     	for(i=0;i<8;i++){
     		nuevoItem();
     	}

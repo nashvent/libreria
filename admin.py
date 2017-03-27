@@ -35,7 +35,7 @@ class Login(QDialog):
                 user=linea[:i]
         userI=self.lineUsuario.text()
         passwordI=self.linePassword.text()
-        if(user=userI):
+        if(user==userI):
             print ('usuario correcto')
         print('usuario:',user)
         print('password:',password)

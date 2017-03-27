@@ -27,8 +27,9 @@ class Lista(QDialog):
         uic.loadUi("ui/lista_productos.ui", self)
         self.tableWidget.doubleClicked.connect(self.on_click)
         #self.tableWidget.setItem(0,0, QTableWidgetItem("Cell (1,1)"))
-        self.actualizarLista()
+        #self.actualizarLista()
         self.listaTitulo.setStyleSheet("background: #89f9ad")
+        self.btn_buscar.clicked.connect(self.ver_productos)
     
     def productoElegido(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():
@@ -50,7 +51,40 @@ class Lista(QDialog):
             self.tableWidget.setItem(i,2, QTableWidgetItem(self.productos[i]['precio_venta']))
             self.tableWidget.setItem(i,3, QTableWidgetItem(self.productos[i]['stock']))
             i=i+1
-            
+    def filtro_busqueda(self,x,y):
+        if(len(x)>len(y)):
+          tmin=len(y)
+          x=x[:tmin]
+        else:
+          tmin=len(x)
+          y=y[:tmin]
+        if (x==y):
+          return True
+        return False
+    
+    def busqueda(self,busca):
+        i=0
+        temp=True
+        for r in self.productos:
+            if(self.filtro_busqueda(r[busca],self.listaProducto.text())):
+                if(r['codigo']!=''):
+                    self.tableWidget.setRowCount(i+1)
+                    self.tableWidget.setItem(i,0, QTableWidgetItem(r['codigo']))
+                    self.tableWidget.setItem(i,1, QTableWidgetItem(r['nombre']))
+                    self.tableWidget.setItem(i,2, QTableWidgetItem(r['precio_venta']))
+                    self.tableWidget.setItem(i,3, QTableWidgetItem(r['stock']))
+                    i=i+1
+                    temp=False
+        if(temp):
+            self.tableWidget.setRowCount(0)
+
+    def ver_productos(self):
+        tipo_buscar=(self.tipoBusca.currentText())
+        if (tipo_buscar=='Nombre'):
+          self.busqueda('nombre')
+        else:
+          self.busqueda('codigo')
+
     @pyqtSlot()
     def on_click(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():

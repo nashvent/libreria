@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 import pdfkit
 import time
+from funciones import *
 
 class Login(QDialog): 
     def __init__(self):
@@ -35,6 +36,7 @@ class Login(QDialog):
                 user=linea[:i]
         userI=self.lineUsuario.text()
         passwordI=self.linePassword.text()
+        passwordI=cifrar(passwordI)
         if(user==userI):
             print ('usuario correcto')
             if(password==passwordI):
@@ -53,6 +55,8 @@ class Login(QDialog):
 
     def loginAceptado(self):
         print('login aceptado')
+
+
         
 class Interfaz(object):
     def closeEvent(self, event):
@@ -94,7 +98,8 @@ class Administrador(QMainWindow,Interfaz):
         self.btn_ver.clicked.connect(self.ver)
         self.btn_guardarc.clicked.connect(self.configuracion)
         self.btn_excel.clicked.connect(self.generarExcel)
-
+        self.cambiarDatos.clicked.connect(self.actualizarDatos)
+        self.mostrarAdminInfo()
     @pyqtSlot()
     def on_click(self):
         print("\n")
@@ -638,4 +643,23 @@ class Administrador(QMainWindow,Interfaz):
     	archi2.write(datosr)
     	archi2.close()
 
+
+    def mostrarAdminInfo(self):
+        archivo = open("security/ident.txt", "r") 
+        linea = archivo.readline()
+        user=''
+        password=''
+        for i in range(len(linea)):
+            if(linea[i]==':'):
+                password=linea[i+1:]
+                user=linea[:i]
+        self.adminUsuario.setText(user)
+        self.adminPassword.setText(descifrar(password))
         
+    def actualizarDatos(self):
+        ident=open('security/ident.txt','w')
+        nuevoUsuario=self.adminUsuario.text()
+        nuevaPassword=self.adminPassword.text()
+        nuevaPassword=cifrar(nuevaPassword)
+        ident.write(nuevoUsuario+':'+nuevaPassword)
+        QMessageBox.question(self, "Datos Administrador", "Se actualizo el usuario y clave con exito", QMessageBox.Ok)

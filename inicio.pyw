@@ -51,7 +51,6 @@ class inicio(QMainWindow):
         f = open(self.productosCSV,'rU')
         bf = pd.read_csv(f)
         cp=len(bf)
-        
         self.lb_vr.setText('               Ventas del Día: '+str(nv))
         self.lb_p.setText('               N° de Productos: '+str(cp))
 

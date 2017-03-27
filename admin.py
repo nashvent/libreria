@@ -21,7 +21,7 @@ class Login(QDialog):
         #super().__init__()
         QDialog.__init__(self)
         uic.loadUi("ui/login.ui", self)
-        self.show()
+        #self.show()
         self.botonLogin.clicked.connect(self.verificar)
         
     def verificar(self):
@@ -35,12 +35,25 @@ class Login(QDialog):
                 user=linea[:i]
         userI=self.lineUsuario.text()
         passwordI=self.linePassword.text()
-        if(user=userI):
+        if(user==userI):
             print ('usuario correcto')
-        print('usuario:',user)
-        print('password:',password)
-        print('usuarioI:',userI)
-        print('passwordI:',passwordI)
+            if(password==passwordI):
+                self.hide()
+                self.linePassword.setText('')
+                self.loginAceptado()
+            else:
+                resultado = QMessageBox.warning(self, "ERROR! ", "Contraseña incorrecto", QMessageBox.Ok)
+        else:
+            resultado = QMessageBox.warning(self, "ERROR! ", "Usuario incorrecto", QMessageBox.Ok)
+
+        #print('usuario:',user)
+        #print('password:',password)
+        #print('usuarioI:',userI)
+        #print('passwordI:',passwordI)
+
+    def loginAceptado(self):
+        print('login aceptado')
+        
 class Interfaz(object):
     def closeEvent(self, event):
         resultado = QMessageBox.question(self, "Salir...", "¿Seguro que quiere salir del Administrador?", QMessageBox.Yes | QMessageBox.No)
@@ -53,7 +66,8 @@ class Administrador(QMainWindow,Interfaz):
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
 
-    def __init__(self):
+    def __init__(self,login):
+        self.login=login
         QMainWindow.__init__(self)
         uic.loadUi("ui/admin.ui", self)
         self.reportes_totales()
@@ -596,4 +610,4 @@ class Administrador(QMainWindow,Interfaz):
     	archi2.write(datosr)
     	archi2.close()
 
-
+        

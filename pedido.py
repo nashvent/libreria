@@ -35,7 +35,7 @@ class Lista(QDialog):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():
             self.agregarCodigo(currentQTableWidgetItem.row())
 
-    def agregarCodigo(self,pos):
+    def agregarCodigo(self,cod,cant):
         #FUNCION Q ESTARA EN LA clase Pedido
         #self.pedido.lineaCodigo.setText(productos[pos]['codigo'])
         #self.pedido.cantidadPedido.setMaximum(int(productos[pos]['stock']))
@@ -88,7 +88,10 @@ class Lista(QDialog):
     @pyqtSlot()
     def on_click(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():
-            self.agregarCodigo(currentQTableWidgetItem.row())
+            r=currentQTableWidgetItem.row()
+            cod=self.tableWidget.item(r,0).text()
+            cant=self.tableWidget.item(r,3).text()
+            self.agregarCodigo(cod,cant)
     
         
 class Pedido(QMainWindow):    
@@ -106,10 +109,10 @@ class Pedido(QMainWindow):
         self.lb_titulo.setStyleSheet("background: #98dc12")
         print('Pedido construido')
 
-    def agregarCodigo(self,pos):
+    def agregarCodigo(self,cod,cant):
         #FUNCION Q ESTARA EN LA clase Pedido
-        self.lineaCodigo.setText(self.lista.productos[pos]['codigo'])
-        self.cantidadPedido.setMaximum(int(self.lista.productos[pos]['stock']))
+        self.lineaCodigo.setText(cod)
+        self.cantidadPedido.setMaximum(int(cant))
         self.lista.hide()
     
     def mostrarLista(self):

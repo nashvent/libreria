@@ -15,6 +15,7 @@ import pandas as pd
 import pdfkit
 import time
 from funciones import *
+import shutil
 
 class Login(QDialog): 
     def __init__(self):
@@ -55,8 +56,6 @@ class Login(QDialog):
 
     def loginAceptado(self):
         print('login aceptado')
-
-
         
 class Interfaz(object):
     def closeEvent(self, event):
@@ -69,7 +68,7 @@ class Administrador(QMainWindow,Interfaz):
     fichero_actual = ""
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
-
+    imgFilename=''
     def __init__(self,login):
         self.login=login
         QMainWindow.__init__(self)
@@ -582,12 +581,9 @@ class Administrador(QMainWindow,Interfaz):
 
     #abrir logo
     def abrir(self):
-        filename = QFileDialog.getOpenFileName(self, 'Open file','/home')
-        
-        #Se define la imagen en la etiqueta
-        #pixmap = QPixmap("%s" %self.filename)
-        #self.logito.setPixmap(pixmap)
-
+        filename = QFileDialog.getOpenFileName(self, 'Open file','/home', 'Images (*.jpg)')
+        self.imgFilename=filename[0]
+  
     def generarDoc(self):    
         #archi=open('datos.html','w')
         if self.tabla_ventas_dia.rowCount()!=0:
@@ -626,23 +622,28 @@ class Administrador(QMainWindow,Interfaz):
           QMessageBox.critical(self, "ALERTA", "No hay datos para hacer el Reporte", QMessageBox.Ok)	
 
     def configuracion(self):
-    	datos=self.nombre_empresa.text()+','+self.rubro.text()+','+self.nombre_titular.text()+','+self.direccion.text()
-    	datos+=',R.U.C. '
-    	datos+=self.ruc.text()
-    	datosr=self.nombre_empresa.text()+',R.U.C. '+self.ruc.text()
-    	archivoActual='documentos/boletas/template/datos.txt'
-    	archivoActual2='documentos/boletas/template/datos.txt'
-    	archivoActual3='documentos/reporte/datos.txt'
-    	archi=open(archivoActual,'w')
-    	archi.write(datos)
-    	archi.close()
-    	archi1=open(archivoActual2,'w')
-    	archi1.write(datos)
-    	archi1.close()
-    	archi2=open(archivoActual3,'w')
-    	archi2.write(datosr)
-    	archi2.close()
+        datos=self.nombre_empresa.text()+','+self.rubro.text()+','+self.nombre_titular.text()+','+self.direccion.text()
+        datos+=',R.U.C. '
+        datos+=self.ruc.text()
+        datosr=self.nombre_empresa.text()+',R.U.C. '+self.ruc.text()
+        archivoActual='documentos/boletas/template/datos.txt'
+        archivoActual2='documentos/boletas/template/datos.txt'
+        archivoActual3='documentos/reporte/datos.txt'
+        archi=open(archivoActual,'w')
+        archi.write(datos)
+        archi.close()
+        archi1=open(archivoActual2,'w')
+        archi1.write(datos)
+        archi1.close()
+        archi2=open(archivoActual3,'w')
+        archi2.write(datosr)
+        archi2.close()
+        if(self.imgFilename!=''):
+            filename2 = 'documentos/logo.jpg'        
+            shutil.copy2(self.imgFilename,filename2)
+        QMessageBox.question(self, "Datos Actualizados", "Datos guardados con exito", QMessageBox.Ok)	
 
+        
 
     def mostrarAdminInfo(self):
         archivo = open("security/ident.txt", "r") 

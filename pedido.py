@@ -153,6 +153,7 @@ class Documento(QMainWindow):
         self.totalDocumento=0
         self.pedido.enviarPedido.clicked.connect(self.generarPedido)
         print('Documento construido')
+        self.datosTitulo.setStyleSheet("background: #ffc962")
         
     def generarPedido(self):
         if(self.pedido.tamPedido>0):

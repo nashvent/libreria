@@ -6,38 +6,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
+    <width>652</width>
     <height>586</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>659</width>
+    <width>652</width>
     <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>659</width>
+    <width>652</width>
     <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Datos del Comprador</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/cash.png</normaloff>icons/cash.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QComboBox" name="tipoDocumento">
     <property name="geometry">
      <rect>
       <x>530</x>
-      <y>40</y>
+      <y>60</y>
       <width>81</width>
       <height>22</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <item>
@@ -55,13 +59,18 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>60</y>
+      <y>80</y>
       <width>571</width>
       <height>491</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="title">
-     <string>Estos datos se agregaran a la factura</string>
+     <string>Datos necesarios</string>
     </property>
     <widget class="QWidget" name="formLayoutWidget_2">
      <property name="geometry">
@@ -224,11 +233,16 @@
     <widget class="QPushButton" name="generarDocumento">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>440</y>
-       <width>111</width>
-       <height>23</height>
+       <x>380</x>
+       <y>432</y>
+       <width>151</width>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Generar Documento</string>
@@ -278,11 +292,16 @@
     <widget class="QPushButton" name="editarPedido">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>440</y>
-       <width>91</width>
-       <height>23</height>
+       <x>20</x>
+       <y>430</y>
+       <width>111</width>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Editar Pedido</string>
@@ -331,13 +350,13 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="labelTitulo">
+   <widget class="QLabel" name="datosTitulo">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>0</x>
       <y>0</y>
-      <width>300</width>
-      <height>39</height>
+      <width>661</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -350,23 +369,29 @@
     <property name="text">
      <string>Datos del Comprador</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>40</y>
+      <y>60</y>
       <width>171</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Selecciona tipo de documento:</string>
+     <string>Tiipo de documento:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>

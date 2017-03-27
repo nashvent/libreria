@@ -582,6 +582,9 @@
              <pointsize>11</pointsize>
             </font>
            </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
+           </property>
            <property name="rowCount">
             <number>1</number>
            </property>
@@ -678,6 +681,9 @@
            <property name="midLineWidth">
             <number>0</number>
            </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
+           </property>
            <property name="rowCount">
             <number>1</number>
            </property>
@@ -738,6 +744,9 @@
         <layout class="QVBoxLayout" name="verticalLayout_14">
          <item>
           <widget class="QTableWidget" name="tabla_agotados">
+           <property name="editTriggers">
+            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
+           </property>
            <property name="rowCount">
             <number>1</number>
            </property>

@@ -8,7 +8,7 @@ import csv, operator
 import time
 import pdfkit
 import os
-import funciones
+from funciones import *
 #print(len(productos))
 """def actualizarListaProductos():
     productos=[]
@@ -265,7 +265,7 @@ class Documento(QMainWindow):
             for reg in cpd_product:
                 BoleFactu.append(reg)
 
-        BoleFactu.append({'fecha':self.fechaDocumento.date().toString("dd/MM/yyyy"), 'hora':time.strftime('%H-%M-%S'),'tipo':tipo,'nombre':self.nombreDocumento.text(),'dni_ruc':self.numeroDocumento.text(),'direccion':self.direccionDocumento.text(),'total':str(self.pedido.TotalPedido),'ganancia':str(ganancia),'ubicacion':archivoRegistro});
+        BoleFactu.append({'fecha':'/'+self.fechaDocumento.date().toString("dd/MM/yyyy"), 'hora':time.strftime('%H-%M-%S'),'tipo':tipo,'nombre':self.nombreDocumento.text(),'dni_ruc':self.numeroDocumento.text(),'direccion':self.direccionDocumento.text(),'total':str(self.pedido.TotalPedido),'ganancia':str(ganancia),'ubicacion':archivoRegistro});
         toCSV = BoleFactu 
         keys = toCSV[0].keys()
         with open(self.boletasFacturas, 'w') as output_file:

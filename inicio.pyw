@@ -35,6 +35,7 @@ class inicio(QMainWindow):
         self.admin.btn_atras.clicked.connect(self.hideAdmin)
         self.pedido.btn_atras.clicked.connect(self.hidePedido)
     def mostrarPedido(self):
+        lista.productos=actualizarListaProductos()
         pedido.show()
         self.hide() 
 

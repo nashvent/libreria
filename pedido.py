@@ -8,83 +8,85 @@ import csv, operator
 import time
 import pdfkit
 import os
-
+from funciones import *
 #print(len(productos))
-def actualizarListaProductos():
+"""def actualizarListaProductos():
     productos=[]
     with open('productos/productos.csv') as csvarchivo:
         entrada = csv.DictReader(csvarchivo)
         for reg in entrada:
             productos.append(reg)
         return productos
-
-
+"""
 class Lista(QDialog): 
-    productos=actualizarListaProductos()
+    productos=actualizarListaProductos()##LISTA A ACUTALIZAR
     def __init__(self):
-        pedido=Pedido(self)
+        print('Lista construida')
         QDialog.__init__(self)
         uic.loadUi("ui/lista_productos.ui", self)
-        self.initUI()
-    def initUI(self):
         self.tableWidget.doubleClicked.connect(self.on_click)
         #self.tableWidget.setItem(0,0, QTableWidgetItem("Cell (1,1)"))
         self.actualizarLista()
+    
     def productoElegido(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():
             self.agregarCodigo(currentQTableWidgetItem.row())
 
     def agregarCodigo(self,pos):
-        self.pedido.lineaCodigo.setText(self.productos[pos]['codigo'])
-        self.pedido.cantidadPedido.setMaximum(int(self.productos[pos]['stock']))
-        self.hide()
+        #FUNCION Q ESTARA EN LA clase Pedido
+        #self.pedido.lineaCodigo.setText(productos[pos]['codigo'])
+        #self.pedido.cantidadPedido.setMaximum(int(productos[pos]['stock']))
+        #self.hide()
+        print('Te falto  modificar metodo de Pedido igualarlo a Otro')
+        
     def actualizarLista(self):
-        productos=[]
-        with open('productos/productos.csv') as csvarchivo:
-            entrada = csv.DictReader(csvarchivo)
-            for reg in entrada:
-                productos.append(reg)
         i=0
-        self.tableWidget.setRowCount(len(productos))
-        while(len(productos)>i):
-            self.tableWidget.setItem(i,0, QTableWidgetItem(productos[i]['codigo']))
-            self.tableWidget.setItem(i,1, QTableWidgetItem(productos[i]['nombre']))
-            self.tableWidget.setItem(i,2, QTableWidgetItem(productos[i]['precio_venta']))
-            self.tableWidget.setItem(i,3, QTableWidgetItem(productos[i]['stock']))
+        self.tableWidget.setRowCount(len(self.productos))
+        while(len(self.productos)>i):
+            self.tableWidget.setItem(i,0, QTableWidgetItem(self.productos[i]['codigo']))
+            self.tableWidget.setItem(i,1, QTableWidgetItem(self.productos[i]['nombre']))
+            self.tableWidget.setItem(i,2, QTableWidgetItem(self.productos[i]['precio_venta']))
+            self.tableWidget.setItem(i,3, QTableWidgetItem(self.productos[i]['stock']))
             i=i+1
+            
     @pyqtSlot()
     def on_click(self):
         for currentQTableWidgetItem in self.tableWidget.selectedItems():
             self.agregarCodigo(currentQTableWidgetItem.row())
     
         
-class Pedido(QMainWindow):
-    productos=actualizarListaProductos()
+class Pedido(QMainWindow):    
     def __init__(self,lista):
-        self.documento=Documento(self)
+        self.lista=lista
         self.tamPedido=0
         self.TotalPedido=0
-        self.lista=lista
+        lista.agregarCodigo=self.agregarCodigo#Seteo funcion dentro de lista
         QMainWindow.__init__(self)
         uic.loadUi("ui/pedido.ui", self)
         self.botonLista.clicked.connect(self.mostrarLista)
         self.botonAgregar.clicked.connect(self.agregarProducto)
         self.quitarProducto.clicked.connect(self.productoRemovido)
-        self.cancelarPedido.clicked.connect(self.limpiarPedido)
-        self.enviarPedido.clicked.connect(self.generarPedido)
+        self.cancelarPedido.clicked.connect(self.limpiarPedido)        
         self.lb_titulo.setStyleSheet("background: #98dc12")
-        
+        print('Pedido construido')
+
+    def agregarCodigo(self,pos):
+        #FUNCION Q ESTARA EN LA clase Pedido
+        self.lineaCodigo.setText(self.lista.productos[pos]['codigo'])
+        self.cantidadPedido.setMaximum(int(self.lista.productos[pos]['stock']))
+        self.lista.hide()
+    
     def mostrarLista(self):
         self.lista.actualizarLista()
         self.lista.show()
 
     def PosPorCodigo(self,cod):
         pos=0
-        for i in self.productos:
+        for i in self.lista.productos:
             if i['codigo']==cod :
                 break
             pos=pos+1
-        if pos==len(self.productos):
+        if pos==len(self.lista.productos):
             pos=-1
         return pos
     
@@ -96,17 +98,17 @@ class Pedido(QMainWindow):
             QMessageBox.warning(self, "ALERTA", "Este codigo de producto no existe.", QMessageBox.Ok)
             self.lineaCodigo.setText('')
             return
-        if(self.productos[pos]['stock']=='0'):
-            QMessageBox.warning(self, "ALERTA", "Ya no hay stock de "+self.productos[pos]['nombre']+'.', QMessageBox.Ok)
+        if(self.lista.productos[pos]['stock']=='0'):
+            QMessageBox.warning(self, "ALERTA", "Ya no hay stock de "+self.lista.productos[pos]['nombre']+'.', QMessageBox.Ok)
             self.lineaCodigo.setText('')
             return
         else:
             self.tablePedido.setRowCount(self.tamPedido+1)
-            self.tablePedido.setItem(self.tamPedido,0,QTableWidgetItem(self.productos[pos]['codigo']))
-            self.tablePedido.setItem(self.tamPedido,1,QTableWidgetItem(self.productos[pos]['nombre']))
-            self.tablePedido.setItem(self.tamPedido,2,QTableWidgetItem(self.productos[pos]['precio_venta']))
+            self.tablePedido.setItem(self.tamPedido,0,QTableWidgetItem(self.lista.productos[pos]['codigo']))
+            self.tablePedido.setItem(self.tamPedido,1,QTableWidgetItem(self.lista.productos[pos]['nombre']))
+            self.tablePedido.setItem(self.tamPedido,2,QTableWidgetItem(self.lista.productos[pos]['precio_venta']))
             self.tablePedido.setItem(self.tamPedido,3,QTableWidgetItem(str(cantidad)))
-            total=str(float(self.productos[pos]['precio_venta'])*cantidad)
+            total=str(float(self.lista.productos[pos]['precio_venta'])*cantidad)
             self.TotalPedido=self.TotalPedido+float(total)
             self.tablePedido.setItem(self.tamPedido,4,QTableWidgetItem(total))
             self.tamPedido=self.tamPedido+1
@@ -126,40 +128,44 @@ class Pedido(QMainWindow):
         self.tamPedido=0
         self.tablePedido.setRowCount(self.tamPedido)
         self.cantidadPedido.setValue(1)
-    def generarPedido(self):
-        if(self.tamPedido>0):
-            self.documento.actualizarTabla(self.tablePedido,self.TotalPedidoLabel.text())
-            self.hide()
-        else:
-            QMessageBox.warning(self, "ALERTA", "No agregaste ningun producto.", QMessageBox.Ok)
+
+#    def generarPedido(self):
+#        if(self.tamPedido>0):
+ #           self.documento.actualizarTabla(self.tablePedido,self.TotalPedidoLabel.text())
+  #          self.hide()
+   #     else:
+    #        QMessageBox.warning(self, "ALERTA", "No agregaste ningun producto.", QMessageBox.Ok)
         
 class Documento(QMainWindow): 
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
-
     def __init__(self,pedido):
         QMainWindow.__init__(self)
         uic.loadUi("ui/documento.ui", self)
         self.pedido=pedido
-        #self.initUI()
         self.tipoDocumento.currentTextChanged.connect(self.itemChanged)
-        #print (time.strftime("%I:%M:%S"))
-        #print (time.strftime("%d/%m/%y"))
         self.fechaDocumento.setDate(QDate.currentDate())
         self.generarDocumento.clicked.connect(self.confirmarDocumento)
         self.editarPedido.clicked.connect(self.mostrarPedido)
         self.igv=0
         self.totalDocumento=0
-        #self.actualizarStock()
-    def initUI(self):
-        self.show()
+        self.pedido.enviarPedido.clicked.connect(self.generarPedido)
+        print('Documento construido')
+        
+    def generarPedido(self):
+        if(self.pedido.tamPedido>0):
+            self.actualizarTabla(self.pedido.tablePedido,self.pedido.TotalPedidoLabel.text())
+            self.pedido.hide()
+            self.show()
+        else:
+            QMessageBox.warning(self, "ALERTA", "No agregaste ningun producto.", QMessageBox.Ok)
 
+        
     def actualizarTabla(self,lista,total):
         self.tablaVenta.setRowCount(lista.rowCount())
         for i in range(lista.rowCount()):
             for j in range(5):
                 self.tablaVenta.setItem(i,j,QTableWidgetItem(lista.item(i,j).text()))
-        
         self.igv=self.pedido.TotalPedido*0.18
         self.totalDocumento=self.pedido.TotalPedido
         if(self.tipoDocumento.currentText()=='Factura'):
@@ -181,7 +187,6 @@ class Documento(QMainWindow):
             self.igvLabel.setText('S/.0.0')
 
     def generarDoc(self):    
-        #archi=open('datos.html','w')
         tipo=''
         archivoActual=''
         archivoRegistro=''
@@ -255,15 +260,14 @@ class Documento(QMainWindow):
             for reg in cpd_product:
                 BoleFactu.append(reg)
 
-        BoleFactu.append({'fecha':self.fechaDocumento.date().toString("dd/MM/yyyy"), 'hora':time.strftime('%H-%M-%S'),'tipo':tipo,'nombre':self.nombreDocumento.text(),'dni_ruc':self.numeroDocumento.text(),'direccion':self.direccionDocumento.text(),'total':str(self.pedido.TotalPedido),'ganancia':str(ganancia),'ubicacion':archivoRegistro});
+        BoleFactu.append({'fecha':'/'+self.fechaDocumento.date().toString("dd/MM/yyyy"), 'hora':time.strftime('%H-%M-%S'),'tipo':tipo,'nombre':self.nombreDocumento.text(),'dni_ruc':self.numeroDocumento.text(),'direccion':self.direccionDocumento.text(),'total':str(self.pedido.TotalPedido),'ganancia':str(ganancia),'ubicacion':archivoRegistro});
         toCSV = BoleFactu 
         keys = toCSV[0].keys()
         with open(self.boletasFacturas, 'w') as output_file:
             dict_writer = csv.DictWriter(output_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(toCSV)
-
-        
+       
         self.actualizarStock(listaActualizar)
         self.pedido.limpiarPedido()
         self.mostrarPedido()
@@ -292,16 +296,15 @@ class Documento(QMainWindow):
             dict_writer = csv.DictWriter(output_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(toCSV)
-        self.pedido.productos=productos
         self.pedido.lista.productos=productos
         self.pedido.lista.actualizarLista()
         
     def confirmarDocumento(self):
-        resultado = QMessageBox.question(self, "Aceptar Compra", "Esta Seguro que quiere registrar la compra", QMessageBox.Yes | QMessageBox.No)
+        resultado = QMessageBox.question(self, "Confirmar Compra", "Esta Seguro que quiere registrar la compra", QMessageBox.Yes | QMessageBox.No)
         if resultado == QMessageBox.Yes: self.generarDoc()
         
     def busGanancia(self,cod,cant):
-        productosGanancia=self.pedido.productos
+        productosGanancia=self.pedido.lista.productos
         for i in productosGanancia:
             if(cod==i['codigo']):
                 return float(i['precio_compra'])*float(cant)

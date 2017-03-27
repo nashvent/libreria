@@ -39,13 +39,18 @@ class Lista(QDialog):
         self.pedido.cantidadPedido.setMaximum(int(self.productos[pos]['stock']))
         self.hide()
     def actualizarLista(self):
+        productos=[]
+        with open('productos/productos.csv') as csvarchivo:
+            entrada = csv.DictReader(csvarchivo)
+            for reg in entrada:
+                productos.append(reg)
         i=0
-        self.tableWidget.setRowCount(len(self.productos))
-        while(len(self.productos)>i):
-            self.tableWidget.setItem(i,0, QTableWidgetItem(self.productos[i]['codigo']))
-            self.tableWidget.setItem(i,1, QTableWidgetItem(self.productos[i]['nombre']))
-            self.tableWidget.setItem(i,2, QTableWidgetItem(self.productos[i]['precio_venta']))
-            self.tableWidget.setItem(i,3, QTableWidgetItem(self.productos[i]['stock']))
+        self.tableWidget.setRowCount(len(productos))
+        while(len(productos)>i):
+            self.tableWidget.setItem(i,0, QTableWidgetItem(productos[i]['codigo']))
+            self.tableWidget.setItem(i,1, QTableWidgetItem(productos[i]['nombre']))
+            self.tableWidget.setItem(i,2, QTableWidgetItem(productos[i]['precio_venta']))
+            self.tableWidget.setItem(i,3, QTableWidgetItem(productos[i]['stock']))
             i=i+1
     @pyqtSlot()
     def on_click(self):
@@ -70,6 +75,7 @@ class Pedido(QMainWindow):
         self.lb_titulo.setStyleSheet("background: #98dc12")
         
     def mostrarLista(self):
+        self.lista.actualizarLista()
         self.lista.show()
 
     def PosPorCodigo(self,cod):

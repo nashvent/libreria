@@ -9,7 +9,7 @@ import pandas as pd
 import time
 
 class inicio(QMainWindow):
- #MÃ©todo constructor de la clase
+ #Metodo constructor de la clase
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
     def hideAdmin(self):
@@ -54,12 +54,12 @@ class inicio(QMainWindow):
         self.lb_vr.setText('               Ventas del Día: '+str(nv))
         self.lb_p.setText('               N° de Productos: '+str(cp))
 
-#Instancia para iniciar una aplicaciÃ³n
+#Instancia para iniciar una aplicación
 app = QApplication(sys.argv)
+
 lista=Lista()
 pedido = Pedido(lista)
 documento=Documento(pedido)
-lista.pedido=pedido
 
 #pedido.show()
 admin = Administrador()

@@ -17,7 +17,7 @@ import time
 
 class Interfaz(object):
     def closeEvent(self, event):
-        resultado = QMessageBox.question(self, "Salir...", "Â¿Seguro que quiere salir del Administrador?", QMessageBox.Yes | QMessageBox.No)
+        resultado = QMessageBox.question(self, "Salir...", "¿Seguro que quiere salir del Administrador?", QMessageBox.Yes | QMessageBox.No)
         if resultado == QMessageBox.Yes: event.accept()
         else: event.ignore()
 
@@ -197,7 +197,7 @@ class Administrador(QMainWindow,Interfaz):
 
     def ver_productos(self):
         tipo_buscar=(self.b_codigo.currentText())
-        if (tipo_buscar=='nombre'):
+        if (tipo_buscar=='Nombre'):
           self.busqueda('nombre')
         else:
           self.busqueda('codigo')

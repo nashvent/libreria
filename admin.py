@@ -10,7 +10,7 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtGui, QtCore
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pandas as pd
 import pdfkit
 import time
@@ -44,8 +44,8 @@ class Administrador(QMainWindow,Interfaz):
         self.fi_fecha.setDate(QDate.currentDate())
         self.ff_fecha.setDate(QDate.currentDate())
         self.btn_bolefac.clicked.connect(self.ver_bolefac)
-        self.btn_graficar_fd.clicked.connect(self.facturas_por_dia)
-        self.btn_totalvg.clicked.connect(self.venta_vs_ganan)
+        #self.btn_graficar_fd.clicked.connect(self.facturas_por_dia)
+        #self.btn_totalvg.clicked.connect(self.venta_vs_ganan)
         self.btn_mv.clicked.connect(self.mas_vendidos)
         self.btn_mev.clicked.connect(self.menos_vendidos)
         self.btn_agotados.clicked.connect(self.mas_agotados)
@@ -83,7 +83,7 @@ class Administrador(QMainWindow,Interfaz):
             'precio_compra':str(a_precio_compra),'precio_venta':str(a_precio_venta),
             'descripcion':a_descripcion,'ganancia':str(float(a_precio_venta)-float(a_precio_compra)),'contador':'0'});
         else:
-          QMessageBox.critical(self, "ALERTA", "Este cÃ³digo de producto ya estÃ¡ usado.", QMessageBox.Ok)
+          QMessageBox.critical(self, "ALERTA", "Este código de producto ya está¡ usado.", QMessageBox.Ok)
           return
 
         toCSV = p2
@@ -145,12 +145,12 @@ class Administrador(QMainWindow,Interfaz):
                 dict_writer = csv.DictWriter(output_file, keys)
                 dict_writer.writeheader()
                 dict_writer.writerows(toCSV)
-            QMessageBox.question(self, "EditÃ³ el Producto "+cod, "Se guardo con Exito", QMessageBox.Ok)
+            QMessageBox.question(self, "Editó el Producto "+cod, "Se guardo con Exito", QMessageBox.Ok)
             self.limpiar()
             self.b_producto.setText(e_codigo)
             self.ver_productos()
           else:
-            QMessageBox.critical(self, "ALERTA", "Este cÃ³digo de producto ya esta usado.", QMessageBox.Ok)
+            QMessageBox.critical(self, "ALERTA", "Este código de producto ya esta usado.", QMessageBox.Ok)
         else:
             QMessageBox.critical(self, "ALERTA", "Datos del producto sin llenar", QMessageBox.Ok)
 
@@ -197,10 +197,10 @@ class Administrador(QMainWindow,Interfaz):
 
     def ver_productos(self):
         tipo_buscar=(self.b_codigo.currentText())
-        if (tipo_buscar=='CÃ³digo'):
-          self.busqueda('codigo')
-        else:
+        if (tipo_buscar=='nombre'):
           self.busqueda('nombre')
+        else:
+          self.busqueda('codigo')
 
     #Eliminar Productos
     def borrar_producto(self,cod_borrar):
@@ -333,7 +333,7 @@ class Administrador(QMainWindow,Interfaz):
         fechas[i]=fechas[i][1:7]+fechas[i][-2:]
         i=i+1
       return fechas
-
+    '''
     def graficar(self,fechas,cantidad):
       numbars = len(fechas)
       width = .75
@@ -353,7 +353,7 @@ class Administrador(QMainWindow,Interfaz):
       plt.xlabel('Azul: Total de Venta         Naranja: Total de Ganancia')
       plt.yticks(range(numbars), fechas)
       plt.grid()
-      plt.show()
+      plt.show()'''
 
     def numero_veces(self,fecha):
       cont=0
@@ -373,6 +373,7 @@ class Administrador(QMainWindow,Interfaz):
         nuevo=True
         fecha_ini='/'+self.fi_fecha.date().toString('dd/MM/yyyy')
         fecha_fin='/'+self.ff_fecha.date().toString('dd/MM/yyyy')
+        self.tabla_ventas_dia.setRowCount(i)
         if (self.compara_fechas(fecha_ini,fecha_fin)):
           with open(self.boletasFacturas) as csvarchivo:
             cpd_product  = csv.DictReader(csvarchivo)
@@ -409,10 +410,12 @@ class Administrador(QMainWindow,Interfaz):
 	        fechas.append(fv)
 	        cantidad.append(float(cv))
 	        i=i+1
+        '''
         if(tip):
         	self.graficar2(fechas,tventas,tganan)
         else:
         	self.graficar(fechas,cantidad)
+        '''
         
     def venta_vs_ganan(self):
       self.facturas_por_dia(True)
@@ -438,10 +441,11 @@ class Administrador(QMainWindow,Interfaz):
         p=products.sort_values(by=['contador'],ascending=[False]).head(10)
         p=p.reset_index(drop=True)
         nombre,masv=self.llenar_top(p)
+        '''
         plt.pie(masv, labels=nombre, autopct='%1.1f%%')
         plt.title(top, bbox={"facecolor":"0.8", "pad":5})
         plt.legend()
-        plt.show()
+        plt.show()'''
     
     def menos_vendidos(self):
         f = open(self.productosCSV,'rU')
@@ -450,11 +454,12 @@ class Administrador(QMainWindow,Interfaz):
         p=products.sort_values(by=['contador'],ascending=[True]).head(10)
         p=p.reset_index(drop=True)
         nombre,masv=self.llenar_top(p)
+        '''
         numbars = len(nombre)
         plt.barh(range(numbars), masv, .75, align='center')
         plt.xlabel(top)
         plt.yticks(range(numbars), nombre)
-        plt.show()
+        plt.show()'''
 
 
     #top 10 mas agotados
@@ -474,11 +479,12 @@ class Administrador(QMainWindow,Interfaz):
           nombre.append(p['nombre'][i])
           masv.append(p['stock'][i])
           i=i+1
+        '''
         numbars = len(nombre)
         plt.barh(range(numbars), masv, .75, align='center')
-        plt.xlabel('Top 10 Productos mÃ¡s Agotados')
+        plt.xlabel('Top 10 Productos más Agotados')
         plt.yticks(range(numbars), nombre)
-        plt.show()
+        plt.show()'''
     
     # conteo total de reportes
     def reportes_totales(self):
@@ -500,8 +506,8 @@ class Administrador(QMainWindow,Interfaz):
           if(n['codigo']!=''):
             cp=cp+1
       self.n_ventas.setText(str(nv))
-      self.total_v.setText('S/. '+str(tv))
-      self.total_g.setText('S/. '+str(tg))
+      self.total_v.setText('S/. '+str(round(tv,9)))
+      self.total_g.setText('S/. '+str(round(tg,9)))
       self.n_product.setText(str(cp))
 
 

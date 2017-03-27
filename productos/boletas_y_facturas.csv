@@ -17,3 +17,5 @@ fecha,hora,tipo,nombre,dni_ruc,direccion,total,ganancia,ubicacion
 27/03/2017,11-06-07,b,ja,123,020202,5.0,2.5,documentos/boletas/27-03-2017-11-06-06.txt
 /27/03/2017,11-12-54,b,nash,2020202,avenida avenir,20.0,10.0,documentos/boletas/27-03-2017-11-12-53.txt
 /27/03/2017,11-31-58,b,iwiwiwiwi,2323,owowowowo,10.5,6.0,documentos/boletas/27-03-2017-11-31-57.txt
+/27/03/2017,11-50-24,f,iiiiiii,111111,pppppp,3.0,2.0,documentos/facturas/27-03-2017-11-50-23.txt
+/27/03/2017,11-54-09,f,Nash,123140,nuva direccion,16.0,8.0,documentos/facturas/27-03-2017-11-54-08.txt

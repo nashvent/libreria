@@ -22,6 +22,7 @@ def actualizarListaProductos():
 class Lista(QDialog): 
     productos=actualizarListaProductos()
     def __init__(self):
+        self.listaTitulo.setStyleSheet("background: #98dc12")
         pedido=Pedido(self)
         QDialog.__init__(self)
         uic.loadUi("ui/lista_productos.ui", self)

@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5 import uic
 from pedido import *
 from admin import *
-import pandas as pd
-import time
+
+#OBJETO E INTERFAZ DE BIENVENIDA
+#Clase que conecta la interfaz de:
+#(PEDIDO/DOCUMENTO/LISTA)<->(LOGIN-ADMINISTRADOR)
 
 class inicio(QMainWindow):
- #Metodo constructor de la clase
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
     def hideAdmin(self):

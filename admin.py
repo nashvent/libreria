@@ -1,29 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
-import csv
-import os
-from PyQt5.QtWidgets import  QWidget, QFileDialog,QFileDialog,QMessageBox,QMainWindow, QApplication, QWidget, QAction, QTableWidget,QTableWidgetItem,QVBoxLayout, QPushButton,QHBoxLayout,QDialog
-from PyQt5 import uic
-from PyQt5.QtGui import QFont
-from PyQt5.QtCore import QDate
-from PyQt5.QtCore import pyqtSlot
-from PyQt5 import QtGui, QtCore
-import numpy as np
-#import matplotlib.pyplot as plt
-import pandas as pd
-import pdfkit
-import time
 
+#FUNCIONES NECESARIAS PARA USAR PYQT Y OTRAS LIBRERIAS
+from funciones import *
+
+#Objeto e Interfaz para producir el Logeo
 class Login(QDialog): 
     def __init__(self):
-        print('Login Construido')
-        #super().__init__()
         QDialog.__init__(self)
         uic.loadUi("ui/login.ui", self)
-        #self.show()
         self.botonLogin.clicked.connect(self.verificar)
-        
+
+    #Verifica si el nombre de usuario y el password son correctos
+    #usando la funcion cifrar
+    #Caso contrario informa con una alerta que indica el dato
+    #incorrecto
     def verificar(self):
         archivo = open("security/ident.txt", "r") 
         linea = archivo.readline()
@@ -35,8 +26,8 @@ class Login(QDialog):
                 user=linea[:i]
         userI=self.lineUsuario.text()
         passwordI=self.linePassword.text()
+        passwordI=cifrar(passwordI)
         if(user==userI):
-            print ('usuario correcto')
             if(password==passwordI):
                 self.hide()
                 self.linePassword.setText('')
@@ -46,14 +37,11 @@ class Login(QDialog):
         else:
             resultado = QMessageBox.warning(self, "ERROR! ", "Usuario incorrecto", QMessageBox.Ok)
 
-        #print('usuario:',user)
-        #print('password:',password)
-        #print('usuarioI:',userI)
-        #print('passwordI:',passwordI)
-
+    #Funcion que sera reasignada en la clase Inicio
     def loginAceptado(self):
-        print('login aceptado')
-        
+        print('')
+
+#Objeto padre que permite heredar la alerta al salir
 class Interfaz(object):
     def closeEvent(self, event):
         resultado = QMessageBox.question(self, "Salir...", "¿Seguro que quiere salir del Administrador?", QMessageBox.Yes | QMessageBox.No)
@@ -65,14 +53,12 @@ class Administrador(QMainWindow,Interfaz):
     fichero_actual = ""
     boletasFacturas = 'productos/boletas_y_facturas.csv'
     productosCSV = 'productos/productos.csv'
-
+    imgFilename=''
     def __init__(self,login):
         self.login=login
         QMainWindow.__init__(self)
         uic.loadUi("ui/admin.ui", self)
-        #self.reportes_totales()
         self.lb_titulo.setStyleSheet("background: #FACC2E")
-        #self.btn_act.clicked.connect(self.reportes_totales)
         self.tipo_bolefac.currentTextChanged.connect(self.itemChanged)
         self.btn_agregar.clicked.connect(self.agregar_producto)
         self.btn_buscar.clicked.connect(self.ver_productos)
@@ -84,8 +70,6 @@ class Administrador(QMainWindow,Interfaz):
         self.fi_fecha.setDate(QDate.currentDate())
         self.ff_fecha.setDate(QDate.currentDate())
         self.btn_bolefac.clicked.connect(self.ver_bolefac)
-        #self.btn_graficar_fd.clicked.connect(self.facturas_por_dia)
-        #self.btn_totalvg.clicked.connect(self.venta_vs_ganan)
         self.btn_mv.clicked.connect(self.mas_vendidos)
         self.btn_mev.clicked.connect(self.menos_vendidos)
         self.btn_agotados.clicked.connect(self.mas_agotados)
@@ -94,7 +78,8 @@ class Administrador(QMainWindow,Interfaz):
         self.btn_ver.clicked.connect(self.ver)
         self.btn_guardarc.clicked.connect(self.configuracion)
         self.btn_excel.clicked.connect(self.generarExcel)
-
+        self.cambiarDatos.clicked.connect(self.actualizarDatos)
+        self.mostrarAdminInfo()
     @pyqtSlot()
     def on_click(self):
         print("\n")
@@ -577,12 +562,9 @@ class Administrador(QMainWindow,Interfaz):
 
     #abrir logo
     def abrir(self):
-        filename = QFileDialog.getOpenFileName(self, 'Open file','/home')
-        
-        #Se define la imagen en la etiqueta
-        #pixmap = QPixmap("%s" %self.filename)
-        #self.logito.setPixmap(pixmap)
-
+        filename = QFileDialog.getOpenFileName(self, 'Open file','/home', 'Images (*.jpg)')
+        self.imgFilename=filename[0]
+  
     def generarDoc(self):    
         #archi=open('datos.html','w')
         if self.tabla_ventas_dia.rowCount()!=0:
@@ -621,21 +603,53 @@ class Administrador(QMainWindow,Interfaz):
           QMessageBox.critical(self, "ALERTA", "No hay datos para hacer el Reporte", QMessageBox.Ok)	
 
     def configuracion(self):
-    	datos=self.nombre_empresa.text()+','+self.rubro.text()+','+self.nombre_titular.text()+','+self.direccion.text()
-    	datos+=',R.U.C. '
-    	datos+=self.ruc.text()
-    	datosr=self.nombre_empresa.text()+',R.U.C. '+self.ruc.text()
-    	archivoActual='documentos/boletas/template/datos.txt'
-    	archivoActual2='documentos/boletas/template/datos.txt'
-    	archivoActual3='documentos/reporte/datos.txt'
-    	archi=open(archivoActual,'w')
-    	archi.write(datos)
-    	archi.close()
-    	archi1=open(archivoActual2,'w')
-    	archi1.write(datos)
-    	archi1.close()
-    	archi2=open(archivoActual3,'w')
-    	archi2.write(datosr)
-    	archi2.close()
+        datos=self.nombre_empresa.text()+','+self.rubro.text()+','+self.nombre_titular.text()+','+self.direccion.text()
+        datos+=',R.U.C. '
+        datos+=self.ruc.text()
+        datosr=self.nombre_empresa.text()+',R.U.C. '+self.ruc.text()
+        archivoActual='documentos/boletas/template/datos.txt'
+        archivoActual2='documentos/boletas/template/datos.txt'
+        archivoActual3='documentos/reporte/datos.txt'
+        archi=open(archivoActual,'w')
+        archi.write(datos)
+        archi.close()
+        archi1=open(archivoActual2,'w')
+        archi1.write(datos)
+        archi1.close()
+        archi2=open(archivoActual3,'w')
+        archi2.write(datosr)
+        archi2.close()
+        if(self.imgFilename!=''):
+            filename2 = 'documentos/logo.jpg'        
+            shutil.copy2(self.imgFilename,filename2)
+        QMessageBox.question(self, "Datos Actualizados", "Datos guardados con exito", QMessageBox.Ok)	
 
         
+
+    def mostrarAdminInfo(self):
+        archivo = open("security/ident.txt", "r") 
+        linea = archivo.readline()
+        user=''
+        password=''
+        for i in range(len(linea)):
+            if(linea[i]==':'):
+                password=linea[i+1:]
+                user=linea[:i]
+        self.adminUsuario.setText(user)
+        self.adminPassword.setText(descifrar(password))
+        archivo2= open("documentos/boletas/template/datos.txt", "r")
+        txtEmpresa=archivo2.readline()
+        datosEmpresa=txtToArray(txtEmpresa)
+        self.nombre_empresa.setText(datosEmpresa[0])
+        self.ruc.setText((datosEmpresa[4])[7:])
+        self.nombre_titular.setText(datosEmpresa[2])
+        self.direccion.setText(datosEmpresa[3])
+        self.rubro.setText(datosEmpresa[1])
+        
+    def actualizarDatos(self):
+        ident=open('security/ident.txt','w')
+        nuevoUsuario=self.adminUsuario.text()
+        nuevaPassword=self.adminPassword.text()
+        nuevaPassword=cifrar(nuevaPassword)
+        ident.write(nuevoUsuario+':'+nuevaPassword)
+        QMessageBox.question(self, "Datos Administrador", "Se actualizo el usuario y clave con exito", QMessageBox.Ok)

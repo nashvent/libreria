@@ -48,7 +48,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="icon">
@@ -1057,38 +1057,18 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_39">
-             <property name="text">
-              <string>Nueva Contraseña:</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_37">
              <property name="text">
-              <string>ID de Administrador:</string>
+              <string>Usuario:</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="lineEdit_3"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_40">
-             <property name="text">
-              <string>Nueva Contraseña:</string>
-             </property>
-            </widget>
+            <widget class="QLineEdit" name="adminUsuario"/>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="lineEdit_4"/>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_5"/>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEdit_6"/>
+            <widget class="QLineEdit" name="adminPassword"/>
            </item>
           </layout>
          </item>
@@ -1110,35 +1090,14 @@
           <layout class="QHBoxLayout" name="horizontalLayout_18"/>
          </item>
          <item row="4" column="1">
-          <widget class="QPushButton" name="pushButton_4">
+          <widget class="QPushButton" name="cambiarDatos">
            <property name="text">
-            <string>Guardar Contraseña</string>
+            <string>Cambiar datos</string>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
-      </item>
-      <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <property name="leftMargin">
-         <number>20</number>
-        </property>
-       </layout>
-      </item>
-      <item row="1" column="3">
-       <layout class="QVBoxLayout" name="verticalLayout_26">
-        <property name="leftMargin">
-         <number>20</number>
-        </property>
-       </layout>
-      </item>
-      <item row="0" column="1" colspan="2">
-       <layout class="QVBoxLayout" name="verticalLayout_27">
-        <property name="topMargin">
-         <number>15</number>
-        </property>
-       </layout>
       </item>
       <item row="1" column="1">
        <widget class="QGroupBox" name="groupBox_9">
@@ -1262,6 +1221,27 @@
          </item>
         </layout>
        </widget>
+      </item>
+      <item row="1" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="leftMargin">
+         <number>20</number>
+        </property>
+       </layout>
+      </item>
+      <item row="1" column="3">
+       <layout class="QVBoxLayout" name="verticalLayout_26">
+        <property name="leftMargin">
+         <number>20</number>
+        </property>
+       </layout>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <layout class="QVBoxLayout" name="verticalLayout_27">
+        <property name="topMargin">
+         <number>15</number>
+        </property>
+       </layout>
       </item>
      </layout>
     </widget>

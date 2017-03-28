@@ -1,8 +1,9 @@
 from cx_Freeze import setup, Executable
-
+addtional_mods = ['numpy.core._methods', 'numpy.lib.format']
 setup( name = "ventana",
            version = "0.1" ,
            description = "ventana" ,
+           options = {'build_exe': {'includes': addtional_mods}},
            executables = [Executable("inicio.pyw")] , )
 
 '''  1. Este archivo le he llamado ejecutable.py. Llámale como quieras

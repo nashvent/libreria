@@ -22,3 +22,5 @@ fecha,hora,tipo,nombre,dni_ruc,direccion,total,ganancia,ubicacion
 /24/03/2017,00-41-35,f,tttt,34567,sdfg,206,198,documentos/facturas/24-03-2017-00-41-32.txt
 /27/03/2017,13-54-58,b,vanessa,1234567,rdhvj,3.0,2.0,documentos/boletas/27-03-2017-13-54-57.txt
 /27/03/2017,13-59-14,b,julio,345688,av paucarpata,27.0,18.0,documentos/boletas/27-03-2017-13-59-12.txt
+/27/03/2017,18-34-48,b,,,,7.0,5.0,documentos/boletas/27-03-2017-18-34-43.txt
+/27/03/2017,18-36-46,f,Nuevo COmprador,1919191,direccion nueva,400.0,150.0,documentos/facturas/27-03-2017-18-36-44.txt
